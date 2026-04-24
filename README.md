@@ -58,6 +58,7 @@ Depois abra o endereço local mostrado no terminal (normalmente `http://localhos
 ## O que o script gera
 
 - Uma aba por trabalhador encontrado no TXT.
+- Blocos repetidos do mesmo trabalhador/vínculo (mesmo nome + inscrição do empregador) são consolidados na mesma aba.
 - Cabeçalho com nome do trabalhador, empregador, inscrição, admissão e afastamento.
 - Tabela mensal por competência com:
   - Competência

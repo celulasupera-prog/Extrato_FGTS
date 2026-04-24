@@ -71,6 +71,35 @@ def _parse_header(block_text: str) -> dict:
     }
 
 
+def _parse_date_br(value: str) -> date | None:
+    if not value:
+        return None
+    try:
+        return datetime.strptime(value, "%d/%m/%Y").date()
+    except ValueError:
+        return None
+
+
+def _merge_headers(current: dict, incoming: dict) -> dict:
+    merged = current.copy()
+
+    for field in ("nome_trabalhador", "empregador", "inscricao_empregador"):
+        if not merged.get(field) and incoming.get(field):
+            merged[field] = incoming[field]
+
+    curr_adm = _parse_date_br(merged.get("data_admissao", ""))
+    inc_adm = _parse_date_br(incoming.get("data_admissao", ""))
+    if curr_adm is None or (inc_adm is not None and inc_adm < curr_adm):
+        merged["data_admissao"] = incoming.get("data_admissao", merged.get("data_admissao", ""))
+
+    curr_af = _parse_date_br(merged.get("data_afastamento", ""))
+    inc_af = _parse_date_br(incoming.get("data_afastamento", ""))
+    if curr_af is None or (inc_af is not None and inc_af > curr_af):
+        merged["data_afastamento"] = incoming.get("data_afastamento", merged.get("data_afastamento", ""))
+
+    return merged
+
+
 def _extract_deposits(block_text: str) -> pd.DataFrame:
     deposits = []
     for m in DEP_RE.finditer(block_text):
@@ -168,16 +197,40 @@ def extrato_fgts_txt_para_excel(txt_path: str, xlsx_path: str = "Extrato_FGTS_An
     if not blocks:
         raise ValueError("O texto não segue o formato de extrato analítico padrão da Caixa.")
 
+    grouped: dict[tuple[str, str], dict] = {}
+    for idx, block in enumerate(blocks, start=1):
+        header = _parse_header(block)
+        dep_df = _extract_deposits(block)
+
+        worker_name = header.get("nome_trabalhador", "").strip()
+        employer_id = header.get("inscricao_empregador", "").strip()
+        group_key = (worker_name or f"TRABALHADOR_{idx}", employer_id or "SEM_INSCRICAO")
+
+        if group_key not in grouped:
+            grouped[group_key] = {
+                "idx": idx,
+                "header": header,
+                "deposits": [],
+            }
+        else:
+            grouped[group_key]["header"] = _merge_headers(grouped[group_key]["header"], header)
+
+        if not dep_df.empty:
+            grouped[group_key]["deposits"].append(dep_df)
+
     wb = Workbook()
     wb.remove(wb.active)
     used_sheet_names: set[str] = set()
 
-    for idx, block in enumerate(blocks, start=1):
-        header = _parse_header(block)
-        dep_df = _extract_deposits(block)
-        df = pd.DataFrame(columns=TABLE_COLUMNS) if dep_df.empty else _build_competence_table(header, dep_df)
+    for _, group in sorted(grouped.items(), key=lambda item: item[1]["idx"]):
+        header = group["header"]
+        if group["deposits"]:
+            merged_dep_df = pd.concat(group["deposits"], ignore_index=True)
+            df = _build_competence_table(header, merged_dep_df)
+        else:
+            df = pd.DataFrame(columns=TABLE_COLUMNS)
 
-        sheet_name = _safe_sheet_name(header.get("nome_trabalhador", ""), idx, used_sheet_names)
+        sheet_name = _safe_sheet_name(header.get("nome_trabalhador", ""), group["idx"], used_sheet_names)
         ws = wb.create_sheet(title=sheet_name)
 
         bold = Font(bold=True)
