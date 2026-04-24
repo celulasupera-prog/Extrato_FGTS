@@ -67,10 +67,12 @@ Depois abra o endereço local mostrado no terminal (normalmente `http://localhos
   - Valor (R$)
   - Prazo (20 do mês seguinte)
 - Aba **Resumo** com consolidação por trabalhador (recolhidas, em atraso, não recolhidas e total).
+- Aba **Lançamentos** para auditoria linha a linha dos depósitos capturados no TXT.
 - Realce visual no Excel:
   - verde para **No Prazo**
   - laranja para **Em Atraso**
   - vermelho claro para **Não recolhido**
+- Bloco de métricas no topo de cada aba de trabalhador (competências, recolhidas, atraso, total).
 
 ## Observações
 

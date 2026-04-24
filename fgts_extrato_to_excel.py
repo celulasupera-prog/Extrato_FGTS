@@ -240,6 +240,44 @@ def _add_summary_sheet(wb: Workbook, summaries: list[dict]) -> None:
         ws.column_dimensions[get_column_letter(col)].width = 20
 
 
+def _add_lancamentos_sheet(wb: Workbook, launch_rows: list[dict]) -> None:
+    ws = wb.create_sheet(title="Lançamentos")
+    ws["A1"] = "Lançamentos capturados no TXT"
+    ws["A1"].font = Font(bold=True, size=14)
+    ws.merge_cells("A1:H1")
+
+    headers = [
+        "Trabalhador",
+        "Empregador",
+        "Inscrição Empregador",
+        "Competência",
+        "Data do Depósito",
+        "Valor (R$)",
+        "Prazo",
+        "Situação FGTS",
+    ]
+    for idx, header in enumerate(headers, start=1):
+        cell = ws.cell(row=3, column=idx, value=header)
+        cell.font = Font(bold=True)
+        cell.fill = PatternFill("solid", fgColor="D9E1F2")
+        cell.alignment = Alignment(horizontal="center")
+
+    for row_idx, item in enumerate(launch_rows, start=4):
+        ws.cell(row=row_idx, column=1, value=item["trabalhador"])
+        ws.cell(row=row_idx, column=2, value=item["empregador"])
+        ws.cell(row=row_idx, column=3, value=item["inscricao_empregador"])
+        ws.cell(row=row_idx, column=4, value=item["competencia"])
+        ws.cell(row=row_idx, column=5, value=item["data_deposito"])
+        ws.cell(row=row_idx, column=6, value=item["valor"]).number_format = "#,##0.00"
+        ws.cell(row=row_idx, column=7, value=item["prazo"])
+        ws.cell(row=row_idx, column=8, value=item["situacao"])
+
+    ws.freeze_panes = "A4"
+    ws.auto_filter.ref = f"A3:H{3 + len(launch_rows)}"
+    for col in range(1, 9):
+        ws.column_dimensions[get_column_letter(col)].width = 20
+
+
 def extrato_fgts_txt_para_excel(txt_path: str, xlsx_path: str = "Extrato_FGTS_Analitico_Processado.xlsx") -> str:
     content = _read_txt_with_fallback(Path(txt_path))
 
@@ -276,6 +314,7 @@ def extrato_fgts_txt_para_excel(txt_path: str, xlsx_path: str = "Extrato_FGTS_An
     wb.remove(wb.active)
     used_sheet_names: set[str] = set()
     summaries: list[dict] = []
+    launch_rows: list[dict] = []
 
     for _, group in sorted(grouped.items(), key=lambda item: item[1]["idx"]):
         header = group["header"]
@@ -298,6 +337,22 @@ def extrato_fgts_txt_para_excel(txt_path: str, xlsx_path: str = "Extrato_FGTS_An
         ws["A4"], ws["B4"] = "Data de Afastamento:", header.get("data_afastamento", "")
         for c in ("A1", "A2", "A3", "A4"):
             ws[c].font = bold
+
+        recolhidas = int((df["Situação FGTS"] == "No Prazo").sum() + (df["Situação FGTS"] == "Em Atraso").sum())
+        em_atraso = int((df["Situação FGTS"] == "Em Atraso").sum())
+        nao_recolhidas = int((df["Situação FGTS"] == "Não recolhido").sum())
+        total_valor = float(df["Valor (R$)"].sum()) if not df.empty else 0.0
+
+        metric_labels = ["Competências", "Recolhidas", "Em Atraso", "Não recolhidas", "Total (R$)"]
+        metric_values = [len(df), recolhidas, em_atraso, nao_recolhidas, total_valor]
+        for idx, label in enumerate(metric_labels, start=1):
+            cell = ws.cell(row=6, column=idx, value=label)
+            cell.font = Font(bold=True)
+            cell.fill = PatternFill("solid", fgColor="D9E1F2")
+            ws.cell(row=7, column=idx, value=metric_values[idx - 1])
+        ws.cell(row=7, column=5).number_format = "#,##0.00"
+
+        ws.cell(row=8, column=1, value="Detalhamento por competência").font = Font(bold=True)
 
         start_row = ws.max_row + 1
         for row in dataframe_to_rows(df, index=False, header=True):
@@ -337,14 +392,34 @@ def extrato_fgts_txt_para_excel(txt_path: str, xlsx_path: str = "Extrato_FGTS_An
             {
                 "trabalhador": header.get("nome_trabalhador", ""),
                 "empregador": emp,
-                "recolhidas": int((df["Situação FGTS"] == "No Prazo").sum() + (df["Situação FGTS"] == "Em Atraso").sum()),
-                "em_atraso": int((df["Situação FGTS"] == "Em Atraso").sum()),
-                "nao_recolhidas": int((df["Situação FGTS"] == "Não recolhido").sum()),
-                "total": float(df["Valor (R$)"].sum()) if not df.empty else 0.0,
+                "recolhidas": recolhidas,
+                "em_atraso": em_atraso,
+                "nao_recolhidas": nao_recolhidas,
+                "total": total_valor,
             }
         )
 
+        if group["deposits"]:
+            for _, dep in merged_dep_df.iterrows():
+                competencia = dep["competencia"]
+                prazo = _prazo_fgts(competencia).strftime("%d/%m/%Y")
+                data_dep = dep["data"].strftime("%d/%m/%Y")
+                situacao = "Em Atraso" if dep["data"] > _prazo_fgts(competencia) else "No Prazo"
+                launch_rows.append(
+                    {
+                        "trabalhador": header.get("nome_trabalhador", ""),
+                        "empregador": emp,
+                        "inscricao_empregador": insc,
+                        "competencia": competencia,
+                        "data_deposito": data_dep,
+                        "valor": float(dep["valor"]),
+                        "prazo": prazo,
+                        "situacao": situacao,
+                    }
+                )
+
     _add_summary_sheet(wb, summaries)
+    _add_lancamentos_sheet(wb, launch_rows)
     wb.save(xlsx_path)
     return xlsx_path
 
