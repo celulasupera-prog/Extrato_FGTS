@@ -66,8 +66,14 @@ Depois abra o endereço local mostrado no terminal (normalmente `http://localhos
   - Situação FGTS
   - Valor (R$)
   - Prazo (20 do mês seguinte)
+- Aba **Resumo** com consolidação por trabalhador (recolhidas, em atraso, não recolhidas e total).
+- Realce visual no Excel:
+  - verde para **No Prazo**
+  - laranja para **Em Atraso**
+  - vermelho claro para **Não recolhido**
 
 ## Observações
 
 - O parser considera o layout padrão de extrato analítico da Caixa.
 - Se uma competência não tiver recolhimento identificado, a linha é marcada como **Não recolhido** com valor `0,00`.
+- A leitura do TXT tenta automaticamente `utf-8-sig`, `utf-8`, `cp1252` e `latin1`.

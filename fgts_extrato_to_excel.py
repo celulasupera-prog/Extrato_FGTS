@@ -174,6 +174,16 @@ def _split_workers(full_text: str) -> list[str]:
     return [marker + p for p in parts[1:]]
 
 
+def _read_txt_with_fallback(path: Path) -> str:
+    raw = path.read_bytes()
+    for encoding in ("utf-8-sig", "utf-8", "cp1252", "latin1"):
+        try:
+            return raw.decode(encoding)
+        except UnicodeDecodeError:
+            continue
+    raise ValueError("Não foi possível decodificar o arquivo TXT com os encodings suportados.")
+
+
 def _safe_sheet_name(name: str, idx: int, used: set[str]) -> str:
     base = (name or f"Trabalhador_{idx}").strip()[:31]
     candidate = base
@@ -186,8 +196,52 @@ def _safe_sheet_name(name: str, idx: int, used: set[str]) -> str:
     return candidate
 
 
+def _apply_status_fill(ws, start_row: int, end_row: int) -> None:
+    fill_ok = PatternFill("solid", fgColor="E2F0D9")
+    fill_late = PatternFill("solid", fgColor="FCE4D6")
+    fill_not_paid = PatternFill("solid", fgColor="F8CBAD")
+
+    for row in range(start_row, end_row + 1):
+        status = ws.cell(row=row, column=3).value
+        if status == "No Prazo":
+            ws.cell(row=row, column=3).fill = fill_ok
+        elif status == "Em Atraso":
+            ws.cell(row=row, column=3).fill = fill_late
+        elif status == "Não recolhido":
+            for col in range(1, 6):
+                ws.cell(row=row, column=col).fill = fill_not_paid
+
+
+def _add_summary_sheet(wb: Workbook, summaries: list[dict]) -> None:
+    ws = wb.create_sheet(title="Resumo", index=0)
+    ws["A1"] = "Resumo FGTS"
+    ws["A1"].font = Font(bold=True, size=14)
+    ws.merge_cells("A1:F1")
+
+    headers = ["Trabalhador", "Empregador", "Recolhidas", "Em Atraso", "Não recolhidas", "Total (R$)"]
+    for idx, header in enumerate(headers, start=1):
+        cell = ws.cell(row=3, column=idx, value=header)
+        cell.font = Font(bold=True)
+        cell.fill = PatternFill("solid", fgColor="D9E1F2")
+        cell.alignment = Alignment(horizontal="center")
+
+    for row_idx, item in enumerate(summaries, start=4):
+        ws.cell(row=row_idx, column=1, value=item["trabalhador"])
+        ws.cell(row=row_idx, column=2, value=item["empregador"])
+        ws.cell(row=row_idx, column=3, value=item["recolhidas"])
+        ws.cell(row=row_idx, column=4, value=item["em_atraso"])
+        ws.cell(row=row_idx, column=5, value=item["nao_recolhidas"])
+        total_cell = ws.cell(row=row_idx, column=6, value=item["total"])
+        total_cell.number_format = "#,##0.00"
+
+    ws.freeze_panes = "A4"
+    ws.auto_filter.ref = f"A3:F{3 + len(summaries)}"
+    for col in range(1, 7):
+        ws.column_dimensions[get_column_letter(col)].width = 20
+
+
 def extrato_fgts_txt_para_excel(txt_path: str, xlsx_path: str = "Extrato_FGTS_Analitico_Processado.xlsx") -> str:
-    content = Path(txt_path).read_text(encoding="utf-8", errors="ignore")
+    content = _read_txt_with_fallback(Path(txt_path))
 
     marker = "FGTS - EXTRATO ANALITICO DO TRABALHADOR"
     if marker not in content:
@@ -221,6 +275,7 @@ def extrato_fgts_txt_para_excel(txt_path: str, xlsx_path: str = "Extrato_FGTS_An
     wb = Workbook()
     wb.remove(wb.active)
     used_sheet_names: set[str] = set()
+    summaries: list[dict] = []
 
     for _, group in sorted(grouped.items(), key=lambda item: item[1]["idx"]):
         header = group["header"]
@@ -244,7 +299,7 @@ def extrato_fgts_txt_para_excel(txt_path: str, xlsx_path: str = "Extrato_FGTS_An
         for c in ("A1", "A2", "A3", "A4"):
             ws[c].font = bold
 
-        start_row = 6
+        start_row = ws.max_row + 1
         for row in dataframe_to_rows(df, index=False, header=True):
             ws.append(row)
 
@@ -256,7 +311,7 @@ def extrato_fgts_txt_para_excel(txt_path: str, xlsx_path: str = "Extrato_FGTS_An
             cell.fill = fill
             cell.alignment = Alignment(horizontal="center", vertical="center", wrap_text=True)
 
-        ws.freeze_panes = ws["A7"]
+        ws.freeze_panes = ws[f"A{header_row + 1}"]
         ws.auto_filter.ref = f"A{header_row}:{get_column_letter(df.shape[1])}{header_row + len(df)}"
 
         currency_format = "#,##0.00"
@@ -276,7 +331,20 @@ def extrato_fgts_txt_para_excel(txt_path: str, xlsx_path: str = "Extrato_FGTS_An
             ws.column_dimensions[get_column_letter(col)].width = min(max(max_len + 2, 12), 45)
 
         ws.column_dimensions["A"].width = 14
+        _apply_status_fill(ws, header_row + 1, header_row + len(df))
 
+        summaries.append(
+            {
+                "trabalhador": header.get("nome_trabalhador", ""),
+                "empregador": emp,
+                "recolhidas": int((df["Situação FGTS"] == "No Prazo").sum() + (df["Situação FGTS"] == "Em Atraso").sum()),
+                "em_atraso": int((df["Situação FGTS"] == "Em Atraso").sum()),
+                "nao_recolhidas": int((df["Situação FGTS"] == "Não recolhido").sum()),
+                "total": float(df["Valor (R$)"].sum()) if not df.empty else 0.0,
+            }
+        )
+
+    _add_summary_sheet(wb, summaries)
     wb.save(xlsx_path)
     return xlsx_path
 
