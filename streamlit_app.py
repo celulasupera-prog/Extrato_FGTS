@@ -66,7 +66,6 @@ p, .stCaption, [data-testid="stCaptionContainer"] { color: var(--muted) !importa
 /* Cards por chave dos containers */
 .st-key-upload_card,
 .st-key-tip_card,
-.st-key-notes_card,
 .st-key-actions_card,
 .st-key-result_card {
   background: linear-gradient(180deg, rgba(15, 23, 42, .96), rgba(11, 18, 32, .96));
@@ -200,12 +199,22 @@ p, .stCaption, [data-testid="stCaptionContainer"] { color: var(--muted) !importa
   justify-content: center;
 }
 [data-testid="stFileUploader"] small { color: var(--muted) !important; }
-[data-testid="stFileUploader"] button {
+[data-testid="stFileUploader"] button,
+[data-testid="stFileUploader"] [data-testid="stBaseButton-secondary"],
+[data-testid="stFileUploader"] [data-testid="stBaseButton-tertiary"] {
   border-radius: 12px !important;
   border: 1px solid rgba(96,165,250,.35) !important;
-  background: rgba(59,130,246,.16) !important;
-  color: #dbeafe !important;
+  background: linear-gradient(135deg, rgba(59,130,246,.22), rgba(37,99,235,.28)) !important;
+  color: #eff6ff !important;
   font-weight: 800 !important;
+  box-shadow: 0 8px 18px rgba(37,99,235,.22) !important;
+}
+[data-testid="stFileUploader"] button:hover,
+[data-testid="stFileUploader"] [data-testid="stBaseButton-secondary"]:hover,
+[data-testid="stFileUploader"] [data-testid="stBaseButton-tertiary"]:hover {
+  border-color: rgba(147,197,253,.8) !important;
+  background: linear-gradient(135deg, rgba(59,130,246,.34), rgba(37,99,235,.46)) !important;
+  color: #ffffff !important;
 }
 
 /* Inputs */
@@ -320,9 +329,6 @@ if "uploader_nonce" not in st.session_state:
     st.session_state.uploader_nonce = 0
 if "output_name" not in st.session_state:
     st.session_state.output_name = DEFAULT_OUTPUT_NAME
-if "dados_colados" not in st.session_state:
-    st.session_state.dados_colados = ""
-
 st.markdown(
     """
 <section class="app-hero">
@@ -384,26 +390,11 @@ with col_tip:
 <div class="status-row">
   <div class="status-pill"><small>Status</small><b>Pronto</b></div>
   <div class="status-pill"><small>Arquivo</small><b>Obrigatório</b></div>
-  <div class="status-pill"><small>Observações</small><b>Opcional</b></div>
+  <div class="status-pill"><small>Saída</small><b>XLSX</b></div>
 </div>
 """,
             unsafe_allow_html=True,
         )
-
-st.markdown("<div style='height: 18px'></div>", unsafe_allow_html=True)
-
-with st.container(key="notes_card"):
-    st.markdown('<h2 class="section-title">📝 Observações auxiliares</h2>', unsafe_allow_html=True)
-    st.markdown(
-        '<p class="section-help">Campo opcional para colar observações internas, referências ou anotações do processamento. Essas informações não alteram a conversão do arquivo.</p>',
-        unsafe_allow_html=True,
-    )
-    st.text_area(
-        "Observações auxiliares",
-        key="dados_colados",
-        placeholder="Ex.: observações internas, trechos para conferência, notas do processamento...",
-        label_visibility="collapsed",
-    )
 
 st.markdown("<div style='height: 18px'></div>", unsafe_allow_html=True)
 
@@ -429,7 +420,6 @@ with st.container(key="actions_card"):
 if limpar:
     st.session_state.uploader_nonce += 1
     st.session_state.output_name = DEFAULT_OUTPUT_NAME
-    st.session_state.dados_colados = ""
     st.session_state.resultado_bytes = None
     st.session_state.resultado_nome = DEFAULT_OUTPUT_NAME
     st.rerun()
