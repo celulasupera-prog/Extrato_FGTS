@@ -152,8 +152,8 @@ if "resultado_bytes" not in st.session_state:
     st.session_state.resultado_bytes = None
 if "resultado_nome" not in st.session_state:
     st.session_state.resultado_nome = "Extrato_FGTS_Analitico_Processado.xlsx"
-if "uploaded_file" not in st.session_state:
-    st.session_state.uploaded_file = None
+if "uploader_nonce" not in st.session_state:
+    st.session_state.uploader_nonce = 0
 if "output_name" not in st.session_state:
     st.session_state.output_name = "Extrato_FGTS_Analitico_Processado.xlsx"
 if "dados_colados" not in st.session_state:
@@ -180,7 +180,7 @@ with col_upload:
     uploaded_file = st.file_uploader(
         "📎 Extrato analítico FGTS (.txt)",
         type=["txt"],
-        key="uploaded_file",
+        key=f"uploaded_file_{st.session_state.uploader_nonce}",
         label_visibility="visible",
     )
 
@@ -238,7 +238,7 @@ with act_col2:
     limpar = st.button("Limpar campos", use_container_width=True)
 
 if limpar:
-    st.session_state.uploaded_file = None
+    st.session_state.uploader_nonce += 1
     st.session_state.output_name = "Extrato_FGTS_Analitico_Processado.xlsx"
     st.session_state.dados_colados = ""
     st.session_state.resultado_bytes = None
