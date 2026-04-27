@@ -199,7 +199,9 @@ p, .stCaption, [data-testid="stCaptionContainer"] { color: var(--muted) !importa
   justify-content: center;
 }
 [data-testid="stFileUploader"] small { color: var(--muted) !important; }
-[data-testid="stFileUploader"] button {
+[data-testid="stFileUploader"] button,
+[data-testid="stFileUploader"] [data-testid="stBaseButton-secondary"],
+[data-testid="stFileUploader"] [data-testid="stBaseButton-tertiary"] {
   border-radius: 12px !important;
   border: 1px solid rgba(96,165,250,.35) !important;
   background: linear-gradient(135deg, rgba(59,130,246,.22), rgba(37,99,235,.28)) !important;
