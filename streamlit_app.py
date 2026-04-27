@@ -208,13 +208,21 @@ p, .stCaption, [data-testid="stCaptionContainer"] { color: var(--muted) !importa
   color: #eff6ff !important;
   font-weight: 800 !important;
   box-shadow: 0 8px 18px rgba(37,99,235,.22) !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: .3rem !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
 }
-[data-testid="stFileUploader"] button:hover,
-[data-testid="stFileUploader"] [data-testid="stBaseButton-secondary"]:hover,
-[data-testid="stFileUploader"] [data-testid="stBaseButton-tertiary"]:hover {
+[data-testid="stFileUploader"] button:hover {
   border-color: rgba(147,197,253,.8) !important;
   background: linear-gradient(135deg, rgba(59,130,246,.34), rgba(37,99,235,.46)) !important;
   color: #ffffff !important;
+}
+[data-testid="stFileUploader"] button p {
+  margin: 0 !important;
+  line-height: 1.1 !important;
 }
 
 /* Inputs */
