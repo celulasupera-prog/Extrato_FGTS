@@ -225,6 +225,65 @@ p, .stCaption, [data-testid="stCaptionContainer"] { color: var(--muted) !importa
   line-height: 1.1 !important;
 }
 
+/* Centraliza conteúdo do uploader */
+[data-testid="stFileUploader"] section {
+  min-height: 185px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  text-align: center !important;
+}
+
+[data-testid="stFileUploader"] section > div {
+  width: 100% !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+/* Corrige textos internos */
+[data-testid="stFileUploader"] section p,
+[data-testid="stFileUploader"] section span,
+[data-testid="stFileUploader"] section small {
+  text-align: center !important;
+}
+
+/* Botão bonito (inclui o ADD) */
+[data-testid="stFileUploader"] button,
+[data-testid="stFileUploader"] [data-testid="stBaseButton-secondary"],
+[data-testid="stFileUploader"] [data-testid="stBaseButton-tertiary"] {
+  min-width: 160px !important;
+  height: 42px !important;
+  padding: 0 18px !important;
+  border-radius: 14px !important;
+  border: 1px solid rgba(96,165,250,.42) !important;
+  background: linear-gradient(135deg, #3b82f6, #2563eb) !important;
+  color: #ffffff !important;
+  font-weight: 800 !important;
+  font-size: 14px !important;
+  box-shadow: 0 12px 26px rgba(37,99,235,.28) !important;
+}
+
+/* Corrige texto dentro do botão (resolve "ADD" feio) */
+[data-testid="stFileUploader"] button p {
+  margin: 0 !important;
+  color: #ffffff !important;
+  font-weight: 800 !important;
+  font-size: 14px !important;
+  line-height: 1 !important;
+  text-align: center !important;
+}
+
+/* Caixa do arquivo anexado */
+[data-testid="stFileUploaderFile"] {
+  background: rgba(2, 6, 23, .52) !important;
+  border: 1px solid rgba(148,163,184,.16) !important;
+  border-radius: 14px !important;
+  padding: 10px 12px !important;
+  margin-top: 12px !important;
+}
+
 /* Inputs */
 [data-testid="stTextInput"] input,
 [data-testid="stTextArea"] textarea {
@@ -373,7 +432,7 @@ with col_upload:
             "Arraste o arquivo TXT aqui ou clique para selecionar",
             type=["txt"],
             key=f"uploaded_file_{st.session_state.uploader_nonce}",
-            label_visibility="visible",
+            label_visibility="collapsed",
         )
 
         st.text_input(
