@@ -216,6 +216,16 @@ p, .stCaption, [data-testid="stCaptionContainer"] { color: var(--muted) !importa
   justify-content: center !important;
   order: 1 !important;
 }
+
+/* conteúdo visual central */
+[data-testid="stFileUploader"] section > div::before {
+  content: "☁️";
+  display: block;
+  font-size: 72px;
+  line-height: 1;
+  margin-bottom: 12px;
+  filter: drop-shadow(0 0 22px rgba(59,130,246,.45));
+}
  
 [data-testid="stFileUploader"] button {
   order: 2 !important;
@@ -237,15 +247,7 @@ p, .stCaption, [data-testid="stCaptionContainer"] { color: var(--muted) !importa
   display: none !important;
 }
  
-/* conteúdo visual central */
-[data-testid="stFileUploader"] section > div::before {
-  content: "☁️";
-  display: block;
-  font-size: 72px;
-  line-height: 1;
-  margin-bottom: 12px;
-  filter: drop-shadow(0 0 22px rgba(59,130,246,.45));
-}
+
  
 [data-testid="stFileUploader"] section > div::after {
   content: "Tamanho máximo: 200MB por arquivo • Formato: TXT";
