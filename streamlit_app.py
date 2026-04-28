@@ -215,17 +215,17 @@ p, .stCaption, [data-testid="stCaptionContainer"] { color: var(--muted) !importa
   justify-content: center !important;
 }
  
-/* 🔥 ORDEM AJUSTADA: botão → nuvem → texto */
-[data-testid="stFileUploader"] button {
-  order: 1 !important; /* botão primeiro */
-}
- 
+/* ORDEM CORRETA: nuvem → botão → texto */
 [data-testid="stFileUploader"] section > div::before {
-  order: 2 !important; /* nuvem no meio */
+  order: 1 !important;
 }
- 
+
+[data-testid="stFileUploader"] button {
+  order: 2 !important;
+}
+
 [data-testid="stFileUploader"] section > div::after {
-  order: 3 !important; /* texto por último */
+  order: 3 !important;
 }
  
 /* Remove TODOS os elementos nativos indesejados */
