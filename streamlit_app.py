@@ -234,6 +234,16 @@ p, .stCaption, [data-testid="stCaptionContainer"] { color: var(--muted) !importa
   display: none !important;
 }
 
+/* Esconde o texto "200MB per file • TXT" que aparece acima do botão */
+[data-testid="stFileUploader"] section [data-testid="stMarkdownContainer"],
+[data-testid="stFileUploader"] section > div > [data-testid="stMarkdownContainer"] {
+  display: none !important;
+}
+
+/* Alternativa mais agressiva - esconde TODOS os textos nativos do uploader */
+[data-testid="stFileUploader"] [data-testid="stMarkdownContainer"] p {
+  display: none !important;
+}
 /* esconde só o texto nativo do botão, sem esconder o botão inteiro */
 [data-testid="stFileUploader"] button span,
 [data-testid="stFileUploader"] button p {
@@ -309,6 +319,7 @@ p, .stCaption, [data-testid="stCaptionContainer"] { color: var(--muted) !importa
   padding: 10px 12px !important;
   margin-top: 14px !important;
 }
+
 
 /* Inputs */
 [data-testid="stTextInput"] input,
