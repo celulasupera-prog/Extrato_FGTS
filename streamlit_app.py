@@ -215,6 +215,19 @@ p, .stCaption, [data-testid="stCaptionContainer"] { color: var(--muted) !importa
   justify-content: center !important;
 }
 
+/* ordem correta dos elementos */
+[data-testid="stFileUploader"] section > div::before {
+  order: 1; /* nuvem */
+}
+
+[data-testid="stFileUploader"] section > div::after {
+  order: 2; /* texto */
+}
+
+[data-testid="stFileUploader"] button {
+  order: 3; /* botão embaixo */
+}
+
 /* esconde textos nativos */
 [data-testid="stFileUploader"] section p,
 [data-testid="stFileUploader"] section small {
@@ -275,6 +288,12 @@ p, .stCaption, [data-testid="stCaptionContainer"] { color: var(--muted) !importa
   color: #ffffff !important;
   font-size: 15px;
   font-weight: 800;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  width: 100%;
 }
 
 [data-testid="stFileUploader"] button:hover {
