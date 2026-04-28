@@ -180,113 +180,118 @@ p, .stCaption, [data-testid="stCaptionContainer"] { color: var(--muted) !importa
   line-height: 1.55;
 }
 
-/* Upload premium */
+/* Upload premium estilo dropzone */
 [data-testid="stFileUploader"] {
-  border: 1.5px dashed rgba(96,165,250,.42) !important;
+  border: 1.5px dashed rgba(59,130,246,.75) !important;
   border-radius: 22px !important;
-  background: linear-gradient(180deg, rgba(30,41,59,.48), rgba(15,23,42,.78)) !important;
-  padding: 1.2rem !important;
-  transition: all .2s ease;
-}
-[data-testid="stFileUploader"]:hover {
-  border-color: rgba(96,165,250,.68) !important;
-  background: linear-gradient(180deg, rgba(30,41,59,.64), rgba(15,23,42,.92)) !important;
-}
-[data-testid="stFileUploader"] section {
-  min-height: 185px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-[data-testid="stFileUploader"] small { color: var(--muted) !important; }
-[data-testid="stFileUploader"] button,
-[data-testid="stFileUploader"] [data-testid="stBaseButton-secondary"],
-[data-testid="stFileUploader"] [data-testid="stBaseButton-tertiary"] {
-  border-radius: 12px !important;
-  border: 1px solid rgba(96,165,250,.35) !important;
-  background: linear-gradient(135deg, rgba(59,130,246,.22), rgba(37,99,235,.28)) !important;
-  color: #eff6ff !important;
-  font-weight: 800 !important;
-  box-shadow: 0 8px 18px rgba(37,99,235,.22) !important;
-  display: inline-flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  gap: .3rem !important;
-  white-space: nowrap !important;
-  overflow: hidden !important;
-}
-[data-testid="stFileUploader"] button:hover {
-  border-color: rgba(147,197,253,.8) !important;
-  background: linear-gradient(135deg, rgba(59,130,246,.34), rgba(37,99,235,.46)) !important;
-  color: #ffffff !important;
-}
-[data-testid="stFileUploader"] button p {
-  margin: 0 !important;
-  line-height: 1.1 !important;
-}
-
-/* Centraliza conteúdo do uploader */
-[data-testid="stFileUploader"] section {
-  min-height: 185px !important;
+  background:
+    radial-gradient(circle at center, rgba(59,130,246,.12), transparent 60%),
+    linear-gradient(180deg, rgba(15,23,42,.92), rgba(8,13,28,.95)) !important;
+  padding: 0 !important;
+  min-height: 300px !important;
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
-  text-align: center !important;
+  transition: all .2s ease !important;
 }
 
-[data-testid="stFileUploader"] section > div {
+[data-testid="stFileUploader"]:hover {
+  border-color: rgba(96,165,250,.95) !important;
+  box-shadow: 0 0 0 3px rgba(59,130,246,.10), 0 18px 50px rgba(37,99,235,.16) !important;
+}
+
+[data-testid="stFileUploader"] section {
   width: 100% !important;
+  min-height: 300px !important;
   display: flex !important;
   flex-direction: column !important;
   align-items: center !important;
   justify-content: center !important;
-}
-
-/* Corrige textos internos */
-[data-testid="stFileUploader"] section p,
-[data-testid="stFileUploader"] section span,
-[data-testid="stFileUploader"] section small {
   text-align: center !important;
+  gap: 10px !important;
+  padding: 34px 20px !important;
 }
 
-/* Botão bonito (inclui o ADD) */
-[data-testid="stFileUploader"] button,
-[data-testid="stFileUploader"] [data-testid="stBaseButton-secondary"],
-[data-testid="stFileUploader"] [data-testid="stBaseButton-tertiary"] {
-  min-width: 160px !important;
-  height: 42px !important;
-  padding: 0 18px !important;
-  border-radius: 14px !important;
-  border: 1px solid rgba(96,165,250,.42) !important;
-  background: linear-gradient(135deg, #3b82f6, #2563eb) !important;
-  color: #ffffff !important;
-  font-weight: 800 !important;
-  font-size: 14px !important;
-  box-shadow: 0 12px 26px rgba(37,99,235,.28) !important;
+/* ícone grande */
+[data-testid="stFileUploader"] section::before {
+  content: "☁️";
+  font-size: 54px;
+  line-height: 1;
+  display: block;
+  margin-bottom: 8px;
+  filter: drop-shadow(0 0 18px rgba(59,130,246,.45));
 }
 
-/* Corrige texto dentro do botão (resolve "ADD" feio) */
-/* Mostra só um texto dentro do botão */
-[data-testid="stFileUploader"] button p {
+/* título */
+[data-testid="stFileUploader"] section > div::before {
+  content: "Arraste o arquivo TXT aqui";
+  display: block;
+  color: #f8fafc;
+  font-size: 21px;
+  font-weight: 800;
+  margin-bottom: 6px;
+}
+
+/* subtítulo */
+[data-testid="stFileUploader"] section > div::after {
+  content: "ou clique no botão para selecionar";
+  display: block;
+  color: #94a3b8;
+  font-size: 16px;
+  font-weight: 500;
+  margin-bottom: 18px;
+}
+
+/* esconde textos padrões do Streamlit */
+[data-testid="stFileUploader"] section p,
+[data-testid="stFileUploader"] section small {
   display: none !important;
 }
 
-/* mantém só o texto principal */
-[data-testid="stFileUploader"] button span {
-  display: inline !important;
-  color: #ffffff !important;
+/* botão selecionar */
+[data-testid="stFileUploader"] button {
+  min-width: 260px !important;
+  height: 52px !important;
+  border-radius: 14px !important;
+  border: 1px solid rgba(96,165,250,.55) !important;
+  background: linear-gradient(135deg, #3b82f6, #2563eb) !important;
+  color: transparent !important;
   font-weight: 800 !important;
-  font-size: 14px !important;
+  box-shadow: 0 14px 34px rgba(37,99,235,.35) !important;
+  position: relative !important;
 }
 
-/* Caixa do arquivo anexado */
+[data-testid="stFileUploader"] button::after {
+  content: "⬆️  Selecionar arquivo TXT";
+  color: #ffffff;
+  font-size: 15px;
+  font-weight: 800;
+}
+
+[data-testid="stFileUploader"] button:hover {
+  transform: translateY(-1px);
+  background: linear-gradient(135deg, #60a5fa, #2563eb) !important;
+}
+
+/* rodapé dentro da dropzone */
+[data-testid="stFileUploader"]::after {
+  content: "Tamanho máximo: 200MB por arquivo • Formato: TXT";
+  position: absolute;
+  margin-top: 230px;
+  color: #94a3b8;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+/* arquivo anexado */
 [data-testid="stFileUploaderFile"] {
-  background: rgba(2, 6, 23, .52) !important;
-  border: 1px solid rgba(148,163,184,.16) !important;
+  background: rgba(2,6,23,.58) !important;
+  border: 1px solid rgba(148,163,184,.18) !important;
   border-radius: 14px !important;
   padding: 10px 12px !important;
-  margin-top: 12px !important;
+  margin-top: 14px !important;
 }
+
 
 /* Inputs */
 [data-testid="stTextInput"] input,
