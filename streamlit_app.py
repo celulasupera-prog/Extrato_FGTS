@@ -196,72 +196,50 @@ p, .stCaption, [data-testid="stCaptionContainer"] { color: var(--muted) !importa
 [data-testid="stFileUploader"] section {
   min-height: 300px !important;
   width: 100% !important;
-  padding: 42px 20px !important;
-  display: flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-}
-
-/* caixa central */
-[data-testid="stFileUploader"] section > div {
-  width: 100% !important;
-  display: flex !important;
-  flex-direction: column !important;
-  align-items: center !important;
-  justify-content: center !important;
+  padding: 40px 20px 70px !important;
+  display: grid !important;
+  place-items: center !important;
   text-align: center !important;
 }
 
-/* esconde textos nativos do Streamlit */
+[data-testid="stFileUploader"] section > div {
+  width: 100% !important;
+  display: grid !important;
+  place-items: center !important;
+}
+
+/* esconde textos nativos */
 [data-testid="stFileUploader"] section p,
 [data-testid="stFileUploader"] section small,
 [data-testid="stFileUploader"] section span {
   display: none !important;
 }
 
-/* ícone */
+/* conteúdo visual central */
 [data-testid="stFileUploader"] section > div::before {
-  content: "☁️";
-  display: block;
-  font-size: 54px;
-  line-height: 1;
-  margin-bottom: 16px;
-  filter: drop-shadow(0 0 18px rgba(59,130,246,.45));
-}
-
-/* título */
-[data-testid="stFileUploader"] section > div::after {
-  content: "Arraste o arquivo TXT aqui";
+  content: "☁️\A\A Arraste o arquivo TXT aqui\A ou clique no botão para selecionar";
+  white-space: pre-line;
   display: block;
   color: #f8fafc;
   font-size: 21px;
   font-weight: 800;
-  line-height: 1.3;
-  margin-bottom: 8px;
+  line-height: 1.45;
+  text-align: center;
+  margin-bottom: 18px;
+  filter: drop-shadow(0 0 18px rgba(59,130,246,.35));
 }
 
-/* subtítulo */
-[data-testid="stFileUploader"] section::after {
-  content: "ou clique no botão para selecionar";
+[data-testid="stFileUploader"] section > div::after {
+  content: "Tamanho máximo: 200MB por arquivo • Formato: TXT";
   display: block;
   color: #94a3b8;
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 500;
-  margin-top: -2px;
-  margin-bottom: 18px;
-}
-
-/* botão visível novamente */
-[data-testid="stFileUploader"] button {
-  display: flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  margin-top: 12px !important;
+  margin-top: 16px;
 }
 
 /* botão */
 [data-testid="stFileUploader"] button {
-  order: 3 !important;
   min-width: 270px !important;
   height: 52px !important;
   border-radius: 14px !important;
@@ -270,6 +248,10 @@ p, .stCaption, [data-testid="stCaptionContainer"] { color: var(--muted) !importa
   box-shadow: 0 14px 34px rgba(37,99,235,.35) !important;
   color: transparent !important;
   position: relative !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  margin: 0 auto !important;
 }
 
 [data-testid="stFileUploader"] button::after {
@@ -279,17 +261,18 @@ p, .stCaption, [data-testid="stCaptionContainer"] { color: var(--muted) !importa
   font-weight: 800;
 }
 
-/* rodapé */
-[data-testid="stFileUploader"]::after {
-  content: "Tamanho máximo: 200MB por arquivo • Formato: TXT";
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 34px;
-  text-align: center;
-  color: #94a3b8;
-  font-size: 14px;
-  font-weight: 500;
+[data-testid="stFileUploader"] button:hover {
+  transform: translateY(-1px);
+  background: linear-gradient(135deg, #60a5fa, #2563eb) !important;
+}
+
+/* arquivo anexado */
+[data-testid="stFileUploaderFile"] {
+  background: rgba(2,6,23,.58) !important;
+  border: 1px solid rgba(148,163,184,.18) !important;
+  border-radius: 14px !important;
+  padding: 10px 12px !important;
+  margin-top: 14px !important;
 }
 
 /* Inputs */
