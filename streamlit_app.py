@@ -189,126 +189,85 @@ p, .stCaption, [data-testid="stCaptionContainer"] { color: var(--muted) !importa
     radial-gradient(circle at center, rgba(59,130,246,.12), transparent 62%),
     linear-gradient(180deg, rgba(15,23,42,.92), rgba(8,13,28,.95)) !important;
   padding: 0 !important;
-  min-height: 300px !important;
+  min-height: 320px !important;
   overflow: hidden !important;
+  transition: all .2s ease !important;
 }
 
+[data-testid="stFileUploader"]:hover {
+  border-color: rgba(96,165,250,.95) !important;
+  box-shadow: 0 0 0 3px rgba(59,130,246,.10), 0 18px 50px rgba(37,99,235,.16) !important;
+}
+
+/* mantém a área real de upload clicável, mas invisível */
 [data-testid="stFileUploader"] section {
-  min-height: 300px !important;
+  min-height: 320px !important;
   width: 100% !important;
-  padding: 40px 20px 70px !important;
-
-  display: flex !important;
-  flex-direction: column !important;
-  align-items: center !important;
-  justify-content: center !important;
-
-  text-align: center !important;
-  gap: 12px !important;
-}
-
-[data-testid="stFileUploader"] section > div {
-  width: 100% !important;
-  display: flex !important;
-  flex-direction: column !important;
-  align-items: center !important;
-  justify-content: center !important;
-}
-
-/* ordem correta dos elementos */
-[data-testid="stFileUploader"] section > div::before {
-  order: 1; /* nuvem */
-}
-
-[data-testid="stFileUploader"] section > div::after {
-  order: 2; /* texto */
-}
-
-[data-testid="stFileUploader"] button {
-  order: 3; /* botão embaixo */
-}
-
-/* esconde textos nativos */
-[data-testid="stFileUploader"] section p,
-[data-testid="stFileUploader"] section small {
-  display: none !important;
-}
-
-/* esconde só o texto nativo do botão, sem esconder o botão inteiro */
-[data-testid="stFileUploader"] button span,
-[data-testid="stFileUploader"] button p {
-  display: none !important;
-}
-
-/* garante que o botão apareça centralizado */
-[data-testid="stFileUploader"] button {
-  display: flex !important;
-  visibility: visible !important;
-  opacity: 1 !important;
-  margin: 18px auto 0 !important;
-}
-
-/* conteúdo visual central */
-[data-testid="stFileUploader"] section > div::before {
-  content: "☁️";
-  display: block;
-  font-size: 72px;   /* 🔥 maior */
-  line-height: 1;
-  margin-bottom: 12px;
-  filter: drop-shadow(0 0 22px rgba(59,130,246,.45));
-}
-
-[data-testid="stFileUploader"] section > div::after {
-  content: "Tamanho máximo: 200MB por arquivo • Formato: TXT";
-  display: block;
-  color: #94a3b8;
-  font-size: 14px;
-  font-weight: 500;
-  margin-top: 16px;
-}
-
-/* botão */
-[data-testid="stFileUploader"] button {
-  min-width: 270px !important;
-  height: 52px !important;
-  border-radius: 14px !important;
-  border: 1px solid rgba(96,165,250,.55) !important;
-  background: linear-gradient(135deg, #3b82f6, #2563eb) !important;
-  box-shadow: 0 14px 34px rgba(37,99,235,.35) !important;
-  color: transparent !important;
+  opacity: 0 !important;
   position: relative !important;
-  display: flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  margin: 16px auto 0 auto !important;
+  z-index: 3 !important;
+  cursor: pointer !important;
 }
 
-[data-testid="stFileUploader"] button::after {
-  content: "⬆️  Selecionar arquivo TXT";
-  color: #ffffff !important;
-  font-size: 15px;
-  font-weight: 800;
+/* visual customizado da dropzone */
+[data-testid="stFileUploader"]::before {
+  content: "☁️\A\A Arraste o arquivo TXT aqui\A ou clique no botão para selecionar\A\A\A Tamanho máximo: 200MB por arquivo • Formato: TXT";
+  white-space: pre-line;
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
 
   display: flex;
   align-items: center;
   justify-content: center;
   text-align: center;
-  width: 100%;
+
+  color: #f8fafc;
+  font-size: 22px;
+  font-weight: 800;
+  line-height: 1.48;
+  filter: drop-shadow(0 0 18px rgba(59,130,246,.35));
 }
 
-[data-testid="stFileUploader"] button:hover {
-  transform: translateY(-1px);
-  background: linear-gradient(135deg, #60a5fa, #2563eb) !important;
+/* botão visual centralizado */
+[data-testid="stFileUploader"]::after {
+  content: "⬆️  Selecionar arquivo TXT";
+  position: absolute;
+  left: 50%;
+  top: 57%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+  pointer-events: none;
+
+  min-width: 270px;
+  height: 52px;
+  border-radius: 14px;
+  border: 1px solid rgba(96,165,250,.55);
+  background: linear-gradient(135deg, #3b82f6, #2563eb);
+  box-shadow: 0 14px 34px rgba(37,99,235,.35);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  color: #ffffff;
+  font-size: 15px;
+  font-weight: 800;
 }
 
 /* arquivo anexado */
 [data-testid="stFileUploaderFile"] {
-  background: rgba(2,6,23,.58) !important;
-  border: 1px solid rgba(148,163,184,.18) !important;
+  position: relative !important;
+  z-index: 4 !important;
+  opacity: 1 !important;
+  background: rgba(2,6,23,.78) !important;
+  border: 1px solid rgba(148,163,184,.22) !important;
   border-radius: 14px !important;
   padding: 10px 12px !important;
   margin-top: 14px !important;
 }
+
 
 /* Inputs */
 [data-testid="stTextInput"] input,
@@ -455,7 +414,7 @@ with col_upload:
         )
 
         uploaded_file = st.file_uploader(
-            "Arraste o arquivo TXT aqui ou clique para selecionar",
+            "Selecionar arquivo TXT",
             type=["txt"],
             key=f"uploaded_file_{st.session_state.uploader_nonce}",
             label_visibility="collapsed",
