@@ -198,6 +198,7 @@ p, .stCaption, [data-testid="stCaptionContainer"] { color: var(--muted) !importa
   min-height: 300px !important;
   width: 100% !important;
   padding: 40px 20px 70px !important;
+  position: relative !important;
  
   display: flex !important;
   flex-direction: column !important;
@@ -218,21 +219,36 @@ p, .stCaption, [data-testid="stCaptionContainer"] { color: var(--muted) !importa
 }
 
 /* conteúdo visual central */
-[data-testid="stFileUploader"] section > div::before {
+[data-testid="stFileUploader"] section::before {
   content: "☁️";
   display: block;
+  position: absolute;
+  top: 42px;
+  left: 50%;
+  transform: translateX(-50%);
   font-size: 72px;
   line-height: 1;
-  margin-bottom: 12px;
   filter: drop-shadow(0 0 22px rgba(59,130,246,.45));
 }
  
-[data-testid="stFileUploader"] button {
-  order: 2 !important;
+[data-testid="stFileUploader"] section > button {
+  order: 1 !important;
   display: flex !important;
   visibility: visible !important;
   opacity: 1 !important;
-  margin: 18px auto 0 !important;
+  margin: 108px auto 0 !important;
+}
+
+[data-testid="stFileUploader"] section > div {
+  order: 2 !important;
+}
+
+[data-testid="stFileUploader"] button {
+  order: 1 !important;
+  display: flex !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  margin: 108px auto 0 !important;
 }
  
 /* esconde textos nativos */
