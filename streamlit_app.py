@@ -210,9 +210,22 @@ p, .stCaption, [data-testid="stCaptionContainer"] { color: var(--muted) !importa
 
 /* esconde textos nativos */
 [data-testid="stFileUploader"] section p,
-[data-testid="stFileUploader"] section small,
-[data-testid="stFileUploader"] section span {
+[data-testid="stFileUploader"] section small {
   display: none !important;
+}
+
+/* esconde só o texto nativo do botão, sem esconder o botão inteiro */
+[data-testid="stFileUploader"] button span,
+[data-testid="stFileUploader"] button p {
+  display: none !important;
+}
+
+/* garante que o botão apareça centralizado */
+[data-testid="stFileUploader"] button {
+  display: flex !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  margin: 18px auto 0 !important;
 }
 
 /* conteúdo visual central */
