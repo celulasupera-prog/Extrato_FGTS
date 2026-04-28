@@ -251,37 +251,17 @@ p, .stCaption, [data-testid="stCaptionContainer"] { color: var(--muted) !importa
   margin-top: 16px;
 }
 
-/* esconde só o texto nativo do botão, sem esconder o botão inteiro */
-[data-testid="stFileUploader"] button span,
-[data-testid="stFileUploader"] button p {
-  display: none !important;
-}
-
-/* garante que o botão apareça centralizado */
-[data-testid="stFileUploader"] button {
-  display: flex !important;
-  visibility: visible !important;
-  opacity: 1 !important;
-  margin: 18px auto 0 !important;
-}
-
 /* conteúdo visual central */
 [data-testid="stFileUploader"] section > div::before {
   content: "☁️";
   display: block;
-  font-size: 72px;   /* 🔥 maior */
+  font-size: 72px;
   line-height: 1;
   margin-bottom: 12px;
-  filter: drop-shadow(0 0 22px rgba(59,130,246,.45));
 }
 
 [data-testid="stFileUploader"] section > div::after {
   content: "Tamanho máximo: 200MB por arquivo • Formato: TXT";
-  display: block;
-  color: #94a3b8;
-  font-size: 14px;
-  font-weight: 500;
-  margin-top: 16px;
 }
 
 /* botão */
