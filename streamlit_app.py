@@ -231,14 +231,32 @@ p, .stCaption, [data-testid="stCaptionContainer"] { color: var(--muted) !importa
 
 /* título */
 [data-testid="stFileUploader"] section > div::after {
-  content: "Arraste o arquivo TXT aqui\aou clique no botão para selecionar";
-  white-space: pre-line;
+  content: "Arraste o arquivo TXT aqui";
   display: block;
   color: #f8fafc;
   font-size: 21px;
   font-weight: 800;
-  line-height: 1.45;
-  margin-bottom: 20px;
+  line-height: 1.3;
+  margin-bottom: 8px;
+}
+
+/* subtítulo */
+[data-testid="stFileUploader"] section::after {
+  content: "ou clique no botão para selecionar";
+  display: block;
+  color: #94a3b8;
+  font-size: 16px;
+  font-weight: 500;
+  margin-top: -2px;
+  margin-bottom: 18px;
+}
+
+/* botão visível novamente */
+[data-testid="stFileUploader"] button {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  margin-top: 12px !important;
 }
 
 /* botão */
