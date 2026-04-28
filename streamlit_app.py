@@ -197,15 +197,22 @@ p, .stCaption, [data-testid="stCaptionContainer"] { color: var(--muted) !importa
   min-height: 300px !important;
   width: 100% !important;
   padding: 40px 20px 70px !important;
-  display: grid !important;
-  place-items: center !important;
+
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+
   text-align: center !important;
+  gap: 12px !important;
 }
 
 [data-testid="stFileUploader"] section > div {
   width: 100% !important;
-  display: grid !important;
-  place-items: center !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
 }
 
 /* esconde textos nativos */
@@ -230,16 +237,12 @@ p, .stCaption, [data-testid="stCaptionContainer"] { color: var(--muted) !importa
 
 /* conteúdo visual central */
 [data-testid="stFileUploader"] section > div::before {
-  content: "☁️\A\A Arraste o arquivo TXT aqui\A ou clique no botão para selecionar";
-  white-space: pre-line;
+  content: "☁️";
   display: block;
-  color: #f8fafc;
-  font-size: 21px;
-  font-weight: 800;
-  line-height: 1.45;
-  text-align: center;
-  margin-bottom: 18px;
-  filter: drop-shadow(0 0 18px rgba(59,130,246,.35));
+  font-size: 72px;   /* 🔥 maior */
+  line-height: 1;
+  margin-bottom: 12px;
+  filter: drop-shadow(0 0 22px rgba(59,130,246,.45));
 }
 
 [data-testid="stFileUploader"] section > div::after {
@@ -264,7 +267,7 @@ p, .stCaption, [data-testid="stCaptionContainer"] { color: var(--muted) !importa
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
-  margin: 0 auto !important;
+  margin: 16px auto 0 auto !important;
 }
 
 [data-testid="stFileUploader"] button::after {
