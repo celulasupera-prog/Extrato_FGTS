@@ -293,17 +293,26 @@ p, .stCaption, [data-testid="stCaptionContainer"] { color: var(--muted) !importa
   margin: 16px auto !important;
 }
  
+[data-testid="stFileUploader"] button {
+  position: relative !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
 [data-testid="stFileUploader"] button::after {
   content: "⬆️  Selecionar arquivo TXT";
+  
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  
   color: #ffffff !important;
   font-size: 15px;
   font-weight: 800;
- 
-  display: flex;
-  align-items: center;
-  justify-content: center;
   text-align: center;
-  width: 100%;
+  white-space: nowrap;
 }
  
 [data-testid="stFileUploader"] button:hover {
