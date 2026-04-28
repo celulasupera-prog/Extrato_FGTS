@@ -29,11 +29,16 @@ st.markdown(
   --surface-2: #0f172a;
   --surface-3: #111827;
   --border: rgba(148, 163, 184, .16);
+  --border-strong: rgba(96, 165, 250, .28);
   --text: #f8fafc;
   --muted: #94a3b8;
+  --muted-2: #cbd5e1;
   --primary: #3b82f6;
   --primary-2: #2563eb;
+  --success: #22c55e;
+  --danger: #ef4444;
   --radius-xl: 24px;
+  --radius-lg: 18px;
   --shadow: 0 24px 70px rgba(0,0,0,.38);
 }
 
@@ -43,7 +48,7 @@ html, body, [data-testid="stAppViewContainer"], .stApp {
     radial-gradient(circle at 90% 8%, rgba(14, 165, 233, .09), transparent 26rem),
     linear-gradient(180deg, #020817 0%, #030712 100%) !important;
   color: var(--text) !important;
-  font-family: 'Inter', sans-serif !important;
+  font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
 }
 
 [data-testid="stHeader"] { background: transparent !important; }
@@ -54,19 +59,11 @@ html, body, [data-testid="stAppViewContainer"], .stApp {
   padding: 2.4rem 1.4rem 3rem;
 }
 
-h1, h2, h3, p, label, span, div {
-  font-family: 'Inter', sans-serif !important;
-}
+h1, h2, h3, p, label, span, div { font-family: 'Inter', sans-serif !important; }
+h1, h2, h3 { color: var(--text) !important; letter-spacing: -.025em; }
+p, .stCaption, [data-testid="stCaptionContainer"] { color: var(--muted) !important; }
 
-h1, h2, h3 {
-  color: var(--text) !important;
-}
-
-p, .stCaption, [data-testid="stCaptionContainer"] {
-  color: var(--muted) !important;
-}
-
-/* Cards */
+/* Cards por chave dos containers */
 .st-key-upload_card,
 .st-key-tip_card,
 .st-key-actions_card,
@@ -78,8 +75,9 @@ p, .stCaption, [data-testid="stCaptionContainer"] {
   box-shadow: var(--shadow);
 }
 
-/* Hero */
 .app-hero {
+  position: relative;
+  overflow: hidden;
   background:
     linear-gradient(135deg, rgba(15, 23, 42, .98), rgba(8, 13, 28, .96)),
     radial-gradient(circle at 90% 0%, rgba(59,130,246,.24), transparent 18rem);
@@ -90,7 +88,20 @@ p, .stCaption, [data-testid="stCaptionContainer"] {
   margin-bottom: 22px;
 }
 
+.app-hero:after {
+  content: "";
+  position: absolute;
+  inset: auto -12% -40% auto;
+  width: 360px;
+  height: 360px;
+  border-radius: 999px;
+  background: rgba(59, 130, 246, .09);
+  filter: blur(8px);
+}
+
 .hero-grid {
+  position: relative;
+  z-index: 1;
   display: grid;
   grid-template-columns: 1fr 360px;
   gap: 24px;
@@ -99,6 +110,8 @@ p, .stCaption, [data-testid="stCaptionContainer"] {
 
 .badge {
   display: inline-flex;
+  align-items: center;
+  gap: 8px;
   padding: 8px 12px;
   border-radius: 999px;
   background: rgba(59,130,246,.12);
@@ -167,10 +180,7 @@ p, .stCaption, [data-testid="stCaptionContainer"] {
   line-height: 1.55;
 }
 
-/* ========================= */
-/* UPLOADER CORRIGIDO */
-/* ========================= */
-
+/* Upload premium estilo dropzone */
 [data-testid="stFileUploader"] {
   position: relative !important;
   border: 1.5px dashed rgba(59,130,246,.75) !important;
@@ -181,67 +191,114 @@ p, .stCaption, [data-testid="stCaptionContainer"] {
   padding: 0 !important;
   min-height: 300px !important;
   overflow: hidden !important;
-  cursor: pointer !important;
 }
 
-/* área interna */
 [data-testid="stFileUploader"] section {
-  position: relative !important;
   min-height: 300px !important;
   width: 100% !important;
-  padding: 42px 20px 58px !important;
+  padding: 40px 20px 70px !important;
+
   display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+
+  text-align: center !important;
+  gap: 12px !important;
+}
+
+[data-testid="stFileUploader"] section > div {
+  width: 100% !important;
+  display: flex !important;
+  flex-direction: column !important;
   align-items: center !important;
   justify-content: center !important;
 }
 
-/* esconde textos nativos do Streamlit */
-[data-testid="stFileUploader"] section > div {
+/* ordem correta dos elementos */
+[data-testid="stFileUploader"] section > div::before {
+  order: 1; /* nuvem */
+}
+
+[data-testid="stFileUploader"] section > div::after {
+  order: 2; /* texto */
+}
+
+[data-testid="stFileUploader"] button {
+  order: 3; /* botão embaixo */
+}
+
+/* esconde textos nativos */
+[data-testid="stFileUploader"] section p,
+[data-testid="stFileUploader"] section small {
   display: none !important;
 }
 
-/* esconde o botão real, mas mantém ele clicável */
-[data-testid="stFileUploader"] button {
-  position: absolute !important;
-  inset: 0 !important;
-  width: 100% !important;
-  height: 100% !important;
-  opacity: 0 !important;
-  cursor: pointer !important;
-  z-index: 10 !important;
+/* esconde só o texto nativo do botão, sem esconder o botão inteiro */
+[data-testid="stFileUploader"] button span,
+[data-testid="stFileUploader"] button p {
+  display: none !important;
 }
 
-/* cria o visual inteiro na ordem correta */
-[data-testid="stFileUploader"] section::before {
-  content: "☁️\\A\\A⬆️  Selecionar arquivo TXT\\A\\ATamanho máximo: 200MB por arquivo • Formato: TXT";
-  white-space: pre-line;
-  text-align: center;
+/* garante que o botão apareça centralizado */
+[data-testid="stFileUploader"] button {
+  display: flex !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  margin: 18px auto 0 !important;
+}
+
+/* conteúdo visual central */
+[data-testid="stFileUploader"] section > div::before {
+  content: "☁️";
+  display: block;
+  font-size: 72px;   /* 🔥 maior */
+  line-height: 1;
+  margin-bottom: 12px;
+  filter: drop-shadow(0 0 22px rgba(59,130,246,.45));
+}
+
+[data-testid="stFileUploader"] section > div::after {
+  content: "Tamanho máximo: 200MB por arquivo • Formato: TXT";
+  display: block;
   color: #94a3b8;
   font-size: 14px;
   font-weight: 500;
-  line-height: 1.7;
-  z-index: 2;
+  margin-top: 16px;
 }
 
-/* aumenta só a sensação visual da nuvem e botão fake */
-[data-testid="stFileUploader"] section::after {
-  content: "";
-  position: absolute;
-  width: 270px;
-  height: 52px;
-  top: 142px;
-  left: 50%;
-  transform: translateX(-50%);
-  border-radius: 14px;
-  background: linear-gradient(135deg, #3b82f6, #2563eb);
-  border: 1px solid rgba(96,165,250,.55);
-  box-shadow: 0 14px 34px rgba(37,99,235,.35);
-  z-index: 1;
+/* botão */
+[data-testid="stFileUploader"] button {
+  min-width: 270px !important;
+  height: 52px !important;
+  border-radius: 14px !important;
+  border: 1px solid rgba(96,165,250,.55) !important;
+  background: linear-gradient(135deg, #3b82f6, #2563eb) !important;
+  box-shadow: 0 14px 34px rgba(37,99,235,.35) !important;
+  color: transparent !important;
+  position: relative !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  margin: 16px auto 0 auto !important;
 }
 
-/* melhora visual do texto fake do botão */
-[data-testid="stFileUploader"] section::before {
-  filter: drop-shadow(0 0 22px rgba(59,130,246,.30));
+[data-testid="stFileUploader"] button::after {
+  content: "⬆️  Selecionar arquivo TXT";
+  color: #ffffff !important;
+  font-size: 15px;
+  font-weight: 800;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  width: 100%;
+}
+
+[data-testid="stFileUploader"] button:hover {
+  transform: translateY(-1px);
+  background: linear-gradient(135deg, #60a5fa, #2563eb) !important;
 }
 
 /* arquivo anexado */
@@ -260,12 +317,18 @@ p, .stCaption, [data-testid="stCaptionContainer"] {
   border: 1px solid rgba(148,163,184,.16) !important;
   border-radius: 16px !important;
   color: var(--text) !important;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.03) !important;
 }
-
 [data-testid="stTextInput"] input:focus,
 [data-testid="stTextArea"] textarea:focus {
   border-color: rgba(96,165,250,.62) !important;
   box-shadow: 0 0 0 3px rgba(59,130,246,.14) !important;
+}
+[data-testid="stTextArea"] textarea {
+  min-height: 220px !important;
+  font-family: 'Consolas', 'Fira Code', ui-monospace, monospace !important;
+  font-size: .94rem !important;
+  line-height: 1.7 !important;
 }
 
 .tip-panel {
@@ -274,23 +337,17 @@ p, .stCaption, [data-testid="stCaptionContainer"] {
   background: rgba(59, 130, 246, .105);
   border: 1px solid rgba(96, 165, 250, .24);
 }
-
 .tip-panel h3 {
   margin: 0 0 10px;
   font-size: 1.05rem;
   color: #dbeafe !important;
 }
-
 .tip-panel p, .tip-panel li {
   color: #cbd5e1 !important;
   font-size: .92rem;
   line-height: 1.65;
 }
-
-.tip-panel ul {
-  margin: 12px 0 0;
-  padding-left: 20px;
-}
+.tip-panel ul { margin: 12px 0 0; padding-left: 20px; }
 
 .status-row {
   display: grid;
@@ -298,25 +355,14 @@ p, .stCaption, [data-testid="stCaptionContainer"] {
   gap: 10px;
   margin-top: 14px;
 }
-
 .status-pill {
   border-radius: 16px;
   padding: 12px;
   background: rgba(2,6,23,.32);
   border: 1px solid rgba(148,163,184,.12);
 }
-
-.status-pill small {
-  color: var(--muted);
-  display: block;
-  font-size: 12px;
-  margin-bottom: 4px;
-}
-
-.status-pill b {
-  color: var(--text);
-  font-size: 14px;
-}
+.status-pill small { color: var(--muted); display: block; font-size: 12px; margin-bottom: 4px; }
+.status-pill b { color: var(--text); font-size: 14px; }
 
 /* Botões */
 .stButton > button,
@@ -327,25 +373,23 @@ p, .stCaption, [data-testid="stCaptionContainer"] {
   border: 1px solid rgba(148,163,184,.18) !important;
   transition: all .18s ease !important;
 }
-
 .stButton > button:hover,
 .stDownloadButton > button:hover {
   transform: translateY(-1px);
 }
-
 .stButton > button[kind="primary"] {
   background: linear-gradient(135deg, var(--primary), var(--primary-2)) !important;
   border-color: rgba(96,165,250,.55) !important;
   color: white !important;
   box-shadow: 0 16px 34px rgba(37,99,235,.32) !important;
 }
-
 .stDownloadButton > button {
   background: rgba(34,197,94,.14) !important;
   border-color: rgba(34,197,94,.34) !important;
   color: #bbf7d0 !important;
 }
 
+/* Alertas nativos */
 [data-testid="stAlert"] {
   border-radius: 16px !important;
   border: 1px solid rgba(148,163,184,.16) !important;
@@ -358,24 +402,10 @@ p, .stCaption, [data-testid="stCaptionContainer"] {
 }
 
 @media (max-width: 900px) {
-  .hero-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .metric-grid,
-  .status-row {
-    grid-template-columns: 1fr;
-  }
-
-  .app-hero {
-    padding: 22px;
-    border-radius: 24px;
-  }
-
-  .main .block-container {
-    padding-left: 1rem;
-    padding-right: 1rem;
-  }
+  .hero-grid { grid-template-columns: 1fr; }
+  .metric-grid, .status-row { grid-template-columns: 1fr; }
+  .app-hero { padding: 22px; border-radius: 24px; }
+  .main .block-container { padding-left: 1rem; padding-right: 1rem; }
 }
 </style>
 """,
@@ -386,17 +416,12 @@ DEFAULT_OUTPUT_NAME = "Extrato_FGTS_Analitico_Processado.xlsx"
 
 if "resultado_bytes" not in st.session_state:
     st.session_state.resultado_bytes = None
-
 if "resultado_nome" not in st.session_state:
     st.session_state.resultado_nome = DEFAULT_OUTPUT_NAME
-
 if "uploader_nonce" not in st.session_state:
     st.session_state.uploader_nonce = 0
-
 if "output_name" not in st.session_state:
     st.session_state.output_name = DEFAULT_OUTPUT_NAME
-
-
 st.markdown(
     """
 <section class="app-hero">
@@ -408,7 +433,6 @@ st.markdown(
         Envie o extrato analítico em TXT, processe os dados automaticamente e baixe uma planilha XLSX pronta para conferência, auditoria e envio.
       </p>
     </div>
-
     <div class="metric-grid">
       <div class="metric-box"><small>Entrada</small><strong>TXT</strong></div>
       <div class="metric-box"><small>Saída</small><strong>XLSX</strong></div>
@@ -424,11 +448,7 @@ col_upload, col_tip = st.columns([1.55, 1], gap="large")
 
 with col_upload:
     with st.container(key="upload_card"):
-        st.markdown(
-            '<h2 class="section-title">⬆️ Upload do extrato</h2>',
-            unsafe_allow_html=True,
-        )
-
+        st.markdown('<h2 class="section-title">⬆️ Upload do extrato</h2>', unsafe_allow_html=True)
         st.markdown(
             '<p class="section-help">Selecione o arquivo TXT original do extrato analítico FGTS. Depois ajuste o nome do arquivo final, se necessário.</p>',
             unsafe_allow_html=True,
@@ -460,7 +480,6 @@ with col_tip:
     <li>Renomeie a saída para facilitar auditoria.</li>
   </ul>
 </div>
-
 <div class="status-row">
   <div class="status-pill"><small>Status</small><b>Pronto</b></div>
   <div class="status-pill"><small>Arquivo</small><b>Obrigatório</b></div>
@@ -505,17 +524,14 @@ if processar:
         try:
             with tempfile.TemporaryDirectory() as tmpdir:
                 tmp_path = Path(tmpdir)
-
                 txt_path = tmp_path / uploaded_file.name
                 txt_path.write_bytes(uploaded_file.getvalue())
 
                 safe_output_name = st.session_state.output_name.strip() or DEFAULT_OUTPUT_NAME
-
                 if not safe_output_name.lower().endswith(".xlsx"):
                     safe_output_name += ".xlsx"
 
                 xlsx_path = tmp_path / safe_output_name
-
                 extrato_fgts_txt_para_excel(str(txt_path), str(xlsx_path))
 
                 st.session_state.resultado_bytes = xlsx_path.read_bytes()
@@ -523,23 +539,17 @@ if processar:
 
             st.success("Planilha gerada com sucesso!")
 
-        except Exception as exc:
+        except Exception as exc:  # interface deve retornar feedback amigável
             st.error(f"Não foi possível processar o arquivo: {exc}")
 
 if st.session_state.resultado_bytes:
     st.markdown("<div style='height: 18px'></div>", unsafe_allow_html=True)
-
     with st.container(key="result_card"):
-        st.markdown(
-            '<h2 class="section-title">✅ Arquivo pronto</h2>',
-            unsafe_allow_html=True,
-        )
-
+        st.markdown('<h2 class="section-title">✅ Arquivo pronto</h2>', unsafe_allow_html=True)
         st.markdown(
             f'<p class="section-help">O arquivo <strong>{st.session_state.resultado_nome}</strong> foi gerado com sucesso.</p>',
             unsafe_allow_html=True,
         )
-
         st.download_button(
             "⬇️ Baixar planilha XLSX",
             data=st.session_state.resultado_bytes,
