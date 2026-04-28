@@ -193,10 +193,11 @@ p, .stCaption, [data-testid="stCaptionContainer"] { color: var(--muted) !importa
   overflow: hidden !important;
 }
 
+/* container principal */
 [data-testid="stFileUploader"] section {
   min-height: 300px !important;
   width: 100% !important;
-  padding: 40px 20px 70px !important;
+  padding: 40px 20px 60px !important;
 
   display: flex !important;
   flex-direction: column !important;
@@ -204,83 +205,58 @@ p, .stCaption, [data-testid="stCaptionContainer"] { color: var(--muted) !importa
   justify-content: center !important;
 
   text-align: center !important;
-  gap: 12px !important;
 }
 
-[data-testid="stFileUploader"] section > div {
-  width: 100% !important;
-  display: flex !important;
-  flex-direction: column !important;
-  align-items: center !important;
-  justify-content: center !important;
-}
-
-/* força layout vertical correto */
-[data-testid="stFileUploader"] section {
-  display: flex !important;
-  flex-direction: column !important;
-  align-items: center !important;
-  justify-content: center !important;
-}
-
-/* container interno */
-[data-testid="stFileUploader"] section > div {
-  display: flex !important;
-  flex-direction: column !important;
-  align-items: center !important;
-  justify-content: center !important;
-}
-
-/* ORDEM REAL */
-[data-testid="stFileUploader"] section > div::before {
-  content: "☁️";
-  order: 1;
-  font-size: 72px;
-  margin-bottom: 10px;
-}
-
-/* botão logo abaixo da nuvem */
-[data-testid="stFileUploader"] button {
-  order: 2 !important;
-  margin-top: 10px !important;
-}
-
-/* texto por último */
+/* REMOVE qualquer conteúdo antigo */
+[data-testid="stFileUploader"] section > div::before,
 [data-testid="stFileUploader"] section > div::after {
-  order: 3;
-  margin-top: 16px;
+  content: none !important;
 }
 
-/* conteúdo visual central */
-[data-testid="stFileUploader"] section > div::before {
+/* ESCONDE textos nativos */
+[data-testid="stFileUploader"] section p,
+[data-testid="stFileUploader"] section small {
+  display: none !important;
+}
+
+/* ESCONDE texto interno do botão */
+[data-testid="stFileUploader"] button span,
+[data-testid="stFileUploader"] button p {
+  display: none !important;
+}
+
+/* 🔥 NUVEM (AGORA NO TOPO) */
+[data-testid="stFileUploader"] section::before {
   content: "☁️";
-  display: block;
   font-size: 72px;
   line-height: 1;
-  margin-bottom: 12px;
+  margin-bottom: 14px;
+  filter: drop-shadow(0 0 22px rgba(59,130,246,.45));
+  order: 1;
 }
 
-[data-testid="stFileUploader"] section > div::after {
-  content: "Tamanho máximo: 200MB por arquivo • Formato: TXT";
-}
-
-/* botão */
-[data-testid="stFileUploader"] button {
+/* 🔥 BOTÃO (SEGUNDO ELEMENTO) */
+[data-testid="stFileUploader"] section button {
+  order: 2 !important;
   min-width: 270px !important;
   height: 52px !important;
   border-radius: 14px !important;
   border: 1px solid rgba(96,165,250,.55) !important;
   background: linear-gradient(135deg, #3b82f6, #2563eb) !important;
   box-shadow: 0 14px 34px rgba(37,99,235,.35) !important;
+
   color: transparent !important;
   position: relative !important;
+
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
-  margin: 16px auto 0 auto !important;
+
+  margin: 10px auto 0 auto !important;
 }
 
-[data-testid="stFileUploader"] button::after {
+/* TEXTO DO BOTÃO */
+[data-testid="stFileUploader"] section button::after {
   content: "⬆️  Selecionar arquivo TXT";
   color: #ffffff !important;
   font-size: 15px;
@@ -289,22 +265,22 @@ p, .stCaption, [data-testid="stCaptionContainer"] { color: var(--muted) !importa
   display: flex;
   align-items: center;
   justify-content: center;
-  text-align: center;
   width: 100%;
 }
 
-[data-testid="stFileUploader"] button:hover {
-  transform: translateY(-1px);
-  background: linear-gradient(135deg, #60a5fa, #2563eb) !important;
+/* 🔥 TEXTO FINAL (TERCEIRO ELEMENTO) */
+[data-testid="stFileUploader"] section::after {
+  content: "Tamanho máximo: 200MB por arquivo • Formato: TXT";
+  color: #94a3b8;
+  font-size: 14px;
+  margin-top: 16px;
+  order: 3;
 }
 
-/* arquivo anexado */
-[data-testid="stFileUploaderFile"] {
-  background: rgba(2,6,23,.58) !important;
-  border: 1px solid rgba(148,163,184,.18) !important;
-  border-radius: 14px !important;
-  padding: 10px 12px !important;
-  margin-top: 14px !important;
+/* hover botão */
+[data-testid="stFileUploader"] section button:hover {
+  transform: translateY(-1px);
+  background: linear-gradient(135deg, #60a5fa, #2563eb) !important;
 }
 
 /* Inputs */
