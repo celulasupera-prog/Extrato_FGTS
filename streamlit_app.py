@@ -266,13 +266,17 @@ p, .stCaption, [data-testid="stCaptionContainer"] { color: var(--muted) !importa
 }
 
 /* Corrige texto dentro do botão (resolve "ADD" feio) */
+/* Mostra só um texto dentro do botão */
 [data-testid="stFileUploader"] button p {
-  margin: 0 !important;
+  display: none !important;
+}
+
+/* mantém só o texto principal */
+[data-testid="stFileUploader"] button span {
+  display: inline !important;
   color: #ffffff !important;
   font-weight: 800 !important;
   font-size: 14px !important;
-  line-height: 1 !important;
-  text-align: center !important;
 }
 
 /* Caixa do arquivo anexado */
