@@ -228,19 +228,24 @@ p, .stCaption, [data-testid="stCaptionContainer"] { color: var(--muted) !importa
   transform: translateX(-50%);
   font-size: 72px;
   line-height: 1;
+  margin-bottom: 10px;
   filter: drop-shadow(0 0 22px rgba(59,130,246,.45));
   order: 1 !important;
 }
  
 [data-testid="stFileUploader"] section > button {
-  order: 1 !important;
+  order: 2 !important;
   display: flex !important;
   visibility: visible !important;
   opacity: 1 !important;
-  margin: 108px auto 0 !important;
+  margin: 18px auto 0 !important;
 }
 
 [data-testid="stFileUploader"] section > div {
+  order: 1 !important;
+}
+
+[data-testid="stFileUploader"] button {
   order: 2 !important;
 }
 
