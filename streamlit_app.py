@@ -261,11 +261,15 @@ p, .stCaption, [data-testid="stCaptionContainer"] { color: var(--muted) !importa
 }
  
 /* Conteúdo visual - Nuvem personalizada */
-[data-testid="stFileUploader"] section > div::before {
+[data-testid="stFileUploader"]::before {
   content: "☁️";
+  position: absolute;
+  top: 58px;
+  left: 50%;
+  transform: translateX(-50%);
   font-size: 72px;
   line-height: 1;
-  margin: 12px 0;
+  z-index: 2;
   filter: drop-shadow(0 0 22px rgba(59,130,246,.45));
 }
  
@@ -290,7 +294,7 @@ p, .stCaption, [data-testid="stCaptionContainer"] { color: var(--muted) !importa
   position: relative !important;
   align-items: center !important;
   justify-content: center !important;
-  margin: 16px auto !important;
+  margin: 120px auto 16px !important;
 }
  
 [data-testid="stFileUploader"] button {
