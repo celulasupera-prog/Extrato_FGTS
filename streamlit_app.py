@@ -218,15 +218,28 @@ p, .stCaption, [data-testid="stCaptionContainer"] { color: var(--muted) !importa
 }
 
 /* conteúdo visual central */
-[data-testid="stFileUploader"] section > div::before {
+[data-testid="stFileUploader"] section::before {
   content: "☁️";
   display: block;
   font-size: 72px;
   line-height: 1;
-  margin-bottom: 12px;
+  margin-bottom: 8px;
   filter: drop-shadow(0 0 22px rgba(59,130,246,.45));
+  order: 1 !important;
 }
  
+[data-testid="stFileUploader"] section > button {
+  order: 2 !important;
+  display: flex !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  margin: 18px auto 0 !important;
+}
+
+[data-testid="stFileUploader"] section > div {
+  order: 3 !important;
+}
+
 [data-testid="stFileUploader"] button {
   order: 2 !important;
   display: flex !important;
