@@ -215,17 +215,40 @@ p, .stCaption, [data-testid="stCaptionContainer"] { color: var(--muted) !importa
   justify-content: center !important;
 }
  
-/* ORDEM CORRETA: nuvem → botão → texto */
+/* Container principal vira flex */
+[data-testid="stFileUploader"] section {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 12px !important;
+}
+
+/* Wrapper interno também */
+[data-testid="stFileUploader"] section > div {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 12px !important;
+}
+
+/* Nuvem primeiro */
 [data-testid="stFileUploader"] section > div::before {
-  order: 1 !important;
+  content: "☁️";
+  font-size: 72px;
+  margin-bottom: 4px;
 }
 
+/* Botão depois */
 [data-testid="stFileUploader"] button {
-  order: 2 !important;
+  margin: 0 !important;
 }
 
+/* Texto por último */
 [data-testid="stFileUploader"] section > div::after {
-  order: 3 !important;
+  content: "Tamanho máximo: 200MB por arquivo • Formato: TXT";
+  margin-top: 6px;
 }
  
 /* Remove TODOS os elementos nativos indesejados */
