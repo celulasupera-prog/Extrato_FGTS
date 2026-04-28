@@ -229,6 +229,7 @@ p, .stCaption, [data-testid="stCaptionContainer"] { color: var(--muted) !importa
   font-size: 72px;
   line-height: 1;
   filter: drop-shadow(0 0 22px rgba(59,130,246,.45));
+  order: 1 !important;
 }
  
 [data-testid="stFileUploader"] section > button {
