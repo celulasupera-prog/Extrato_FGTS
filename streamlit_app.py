@@ -182,116 +182,176 @@ p, .stCaption, [data-testid="stCaptionContainer"] { color: var(--muted) !importa
 
 /* Upload premium estilo dropzone */
 [data-testid="stFileUploader"] {
+  position: relative !important;
   border: 1.5px dashed rgba(59,130,246,.75) !important;
   border-radius: 22px !important;
   background:
-    radial-gradient(circle at center, rgba(59,130,246,.12), transparent 60%),
+    radial-gradient(circle at center, rgba(59,130,246,.12), transparent 62%),
     linear-gradient(180deg, rgba(15,23,42,.92), rgba(8,13,28,.95)) !important;
   padding: 0 !important;
   min-height: 300px !important;
-  display: flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  transition: all .2s ease !important;
-}
-
-[data-testid="stFileUploader"]:hover {
-  border-color: rgba(96,165,250,.95) !important;
-  box-shadow: 0 0 0 3px rgba(59,130,246,.10), 0 18px 50px rgba(37,99,235,.16) !important;
+  overflow: hidden !important;
 }
 
 [data-testid="stFileUploader"] section {
-  width: 100% !important;
   min-height: 300px !important;
+  width: 100% !important;
+  padding: 42px 20px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+/* caixa central */
+[data-testid="stFileUploader"] section > div {
+  width: 100% !important;
   display: flex !important;
   flex-direction: column !important;
   align-items: center !important;
   justify-content: center !important;
   text-align: center !important;
-  gap: 10px !important;
-  padding: 34px 20px !important;
 }
 
-/* ícone grande */
-[data-testid="stFileUploader"] section::before {
+/* esconde textos nativos do Streamlit */
+[data-testid="stFileUploader"] section p,
+[data-testid="stFileUploader"] section small,
+[data-testid="stFileUploader"] section span {
+  display: none !important;
+}
+
+/* ícone */
+[data-testid="stFileUploader"] section > div::before {
   content: "☁️";
+  display: block;
   font-size: 54px;
   line-height: 1;
-  display: block;
-  margin-bottom: 8px;
+  margin-bottom: 16px;
   filter: drop-shadow(0 0 18px rgba(59,130,246,.45));
 }
 
 /* título */
-[data-testid="stFileUploader"] section > div::before {
-  content: "Arraste o arquivo TXT aqui";
+[data-testid="stFileUploader"] section > div::after {
+  content: "Arraste o arquivo TXT aqui\aou clique no botão para selecionar";
+  white-space: pre-line;
   display: block;
   color: #f8fafc;
   font-size: 21px;
   font-weight: 800;
-  margin-bottom: 6px;
+  line-height: 1.45;
+  margin-bottom: 20px;
 }
 
-/* subtítulo */
-[data-testid="stFileUploader"] section > div::after {
-  content: "ou clique no botão para selecionar";
-  display: block;
-  color: #94a3b8;
-  font-size: 16px;
-  font-weight: 500;
-  margin-bottom: 18px;
-}
-
-/* esconde textos padrões do Streamlit */
-[data-testid="stFileUploader"] section p,
-[data-testid="stFileUploader"] section small {
-  display: none !important;
-}
-
-/* botão selecionar */
+/* botão */
 [data-testid="stFileUploader"] button {
-  min-width: 260px !important;
+  order: 3 !important;
+  min-width: 270px !important;
   height: 52px !important;
   border-radius: 14px !important;
   border: 1px solid rgba(96,165,250,.55) !important;
   background: linear-gradient(135deg, #3b82f6, #2563eb) !important;
-  color: transparent !important;
-  font-weight: 800 !important;
   box-shadow: 0 14px 34px rgba(37,99,235,.35) !important;
+  color: transparent !important;
   position: relative !important;
 }
 
 [data-testid="stFileUploader"] button::after {
   content: "⬆️  Selecionar arquivo TXT";
-  color: #ffffff;
+  color: #ffffff !important;
   font-size: 15px;
   font-weight: 800;
 }
 
-[data-testid="stFileUploader"] button:hover {
-  transform: translateY(-1px);
-  background: linear-gradient(135deg, #60a5fa, #2563eb) !important;
-}
-
-/* rodapé dentro da dropzone */
+/* rodapé */
 [data-testid="stFileUploader"]::after {
   content: "Tamanho máximo: 200MB por arquivo • Formato: TXT";
   position: absolute;
-  margin-top: 230px;
+  left: 0;
+  right: 0;
+  bottom: 34px;
+  text-align: center;
   color: #94a3b8;
   font-size: 14px;
   font-weight: 500;
 }
 
-/* arquivo anexado */
-[data-testid="stFileUploaderFile"] {
-  background: rgba(2,6,23,.58) !important;
-  border: 1px solid rgba(148,163,184,.18) !important;
-  border-radius: 14px !important;
-  padding: 10px 12px !important;
-  margin-top: 14px !important;
+/* Inputs */
+[data-testid="stTextInput"] input,
+[data-testid="stTextArea"] textarea {
+  background: rgba(2, 6, 23, .56) !important;
+  border: 1px solid rgba(148,163,184,.16) !important;
+  border-radius: 16px !important;
+  color: var(--text) !important;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.03) !important;
+}
+[data-testid="stTextInput"] input:focus,
+[data-testid="stTextArea"] textarea:focus {
+  border-color: rgba(96,165,250,.62) !important;
+  box-shadow: 0 0 0 3px rgba(59,130,246,.14) !important;
+}
+[data-testid="stTextArea"] textarea {
+  min-height: 220px !important;
+  font-family: 'Consolas', 'Fira Code', ui-monospace, monospace !important;
+  font-size: .94rem !important;
+  line-height: 1.7 !important;
 }
 
+.tip-panel {
+  border-radius: 20px;
+  padding: 18px;
+  background: rgba(59, 130, 246, .105);
+  border: 1px solid rgba(96, 165, 250, .24);
+}
+.tip-panel h3 {
+  margin: 0 0 10px;
+  font-size: 1.05rem;
+  color: #dbeafe !important;
+}
+.tip-panel p, .tip-panel li {
+  color: #cbd5e1 !important;
+  font-size: .92rem;
+  line-height: 1.65;
+}
+.tip-panel ul { margin: 12px 0 0; padding-left: 20px; }
+
+.status-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-top: 14px;
+}
+.status-pill {
+  border-radius: 16px;
+  padding: 12px;
+  background: rgba(2,6,23,.32);
+  border: 1px solid rgba(148,163,184,.12);
+}
+.status-pill small { color: var(--muted); display: block; font-size: 12px; margin-bottom: 4px; }
+.status-pill b { color: var(--text); font-size: 14px; }
+
+/* Botões */
+.stButton > button,
+.stDownloadButton > button {
+  height: 48px !important;
+  border-radius: 15px !important;
+  font-weight: 800 !important;
+  border: 1px solid rgba(148,163,184,.18) !important;
+  transition: all .18s ease !important;
+}
+.stButton > button:hover,
+.stDownloadButton > button:hover {
+  transform: translateY(-1px);
+}
+.stButton > button[kind="primary"] {
+  background: linear-gradient(135deg, var(--primary), var(--primary-2)) !important;
+  border-color: rgba(96,165,250,.55) !important;
+  color: white !important;
+  box-shadow: 0 16px 34px rgba(37,99,235,.32) !important;
+}
+.stDownloadButton > button {
+  background: rgba(34,197,94,.14) !important;
+  border-color: rgba(34,197,94,.34) !important;
+  color: #bbf7d0 !important;
+}
 
 /* Alertas nativos */
 [data-testid="stAlert"] {
