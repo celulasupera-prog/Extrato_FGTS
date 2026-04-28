@@ -180,7 +180,6 @@ p, .stCaption, [data-testid="stCaptionContainer"] { color: var(--muted) !importa
   line-height: 1.55;
 }
 
-
 /* Upload premium estilo dropzone */
 [data-testid="stFileUploader"] {
   position: relative !important;
@@ -193,84 +192,72 @@ p, .stCaption, [data-testid="stCaptionContainer"] { color: var(--muted) !importa
   min-height: 300px !important;
   overflow: hidden !important;
 }
- 
+
 [data-testid="stFileUploader"] section {
   min-height: 300px !important;
   width: 100% !important;
   padding: 40px 20px 70px !important;
-  position: relative !important;
- 
+
   display: flex !important;
   flex-direction: column !important;
   align-items: center !important;
   justify-content: center !important;
- 
+
   text-align: center !important;
   gap: 12px !important;
 }
- 
+
 [data-testid="stFileUploader"] section > div {
   width: 100% !important;
   display: flex !important;
   flex-direction: column !important;
   align-items: center !important;
   justify-content: center !important;
-  order: 1 !important;
 }
 
-/* conteúdo visual central */
-[data-testid="stFileUploader"] section::before {
-  content: "☁️";
-  display: block;
-  position: absolute;
-  top: 42px;
-  left: 50%;
-  transform: translateX(-50%);
-  font-size: 72px;
-  line-height: 1;
-  margin-bottom: 10px;
-  filter: drop-shadow(0 0 22px rgba(59,130,246,.45));
-  order: 1 !important;
+/* ordem correta dos elementos */
+[data-testid="stFileUploader"] section > div::before {
+  order: 1; /* nuvem */
 }
- 
-[data-testid="stFileUploader"] section > button {
-  order: 2 !important;
+
+[data-testid="stFileUploader"] section > div::after {
+  order: 2; /* texto */
+}
+
+[data-testid="stFileUploader"] button {
+  order: 3; /* botão embaixo */
+}
+
+/* esconde textos nativos */
+[data-testid="stFileUploader"] section p,
+[data-testid="stFileUploader"] section small {
+  display: none !important;
+}
+
+/* esconde só o texto nativo do botão, sem esconder o botão inteiro */
+[data-testid="stFileUploader"] button span,
+[data-testid="stFileUploader"] button p {
+  display: none !important;
+}
+
+/* garante que o botão apareça centralizado */
+[data-testid="stFileUploader"] button {
   display: flex !important;
   visibility: visible !important;
   opacity: 1 !important;
   margin: 18px auto 0 !important;
 }
 
-[data-testid="stFileUploader"] section > div {
-  order: 1 !important;
+/* conteúdo visual central */
+[data-testid="stFileUploader"] section > div::before {
+  content: "☁️";
+  display: block;
+  font-size: 72px;   /* 🔥 maior */
+  line-height: 1;
+  margin-bottom: 12px;
+  filter: drop-shadow(0 0 22px rgba(59,130,246,.45));
 }
 
-[data-testid="stFileUploader"] button {
-  order: 2 !important;
-}
-
-[data-testid="stFileUploader"] button {
-  order: 1 !important;
-  display: flex !important;
-  visibility: visible !important;
-  opacity: 1 !important;
-  margin: 108px auto 0 !important;
-}
- 
-/* esconde textos nativos */
-[data-testid="stFileUploader"] section p,
-[data-testid="stFileUploader"] section small {
-  display: none !important;
-}
- 
-/* esconde só o texto nativo do botão, sem esconder o botão inteiro */
-[data-testid="stFileUploader"] button span,
-[data-testid="stFileUploader"] button p {
-  display: none !important;
-}
- 
-
- 
 [data-testid="stFileUploader"] section > div::after {
   content: "Tamanho máximo: 200MB por arquivo • Formato: TXT";
   display: block;
@@ -279,7 +266,7 @@ p, .stCaption, [data-testid="stCaptionContainer"] { color: var(--muted) !importa
   font-weight: 500;
   margin-top: 16px;
 }
- 
+
 /* botão */
 [data-testid="stFileUploader"] button {
   min-width: 270px !important;
@@ -295,25 +282,25 @@ p, .stCaption, [data-testid="stCaptionContainer"] { color: var(--muted) !importa
   justify-content: center !important;
   margin: 16px auto 0 auto !important;
 }
- 
+
 [data-testid="stFileUploader"] button::after {
   content: "⬆️  Selecionar arquivo TXT";
   color: #ffffff !important;
   font-size: 15px;
   font-weight: 800;
- 
+
   display: flex;
   align-items: center;
   justify-content: center;
   text-align: center;
   width: 100%;
 }
- 
+
 [data-testid="stFileUploader"] button:hover {
   transform: translateY(-1px);
   background: linear-gradient(135deg, #60a5fa, #2563eb) !important;
 }
- 
+
 /* arquivo anexado */
 [data-testid="stFileUploaderFile"] {
   background: rgba(2,6,23,.58) !important;
