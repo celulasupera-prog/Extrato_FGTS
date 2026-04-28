@@ -215,23 +215,40 @@ p, .stCaption, [data-testid="stCaptionContainer"] { color: var(--muted) !importa
   justify-content: center !important;
 }
 
-/* ordem correta dos elementos */
+/* força layout vertical correto */
+[data-testid="stFileUploader"] section {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+/* container interno */
+[data-testid="stFileUploader"] section > div {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+/* ORDEM REAL */
 [data-testid="stFileUploader"] section > div::before {
-  order: 1; /* nuvem */
+  content: "☁️";
+  order: 1;
+  font-size: 72px;
+  margin-bottom: 10px;
 }
 
-[data-testid="stFileUploader"] section > div::after {
-  order: 2; /* texto */
-}
-
+/* botão logo abaixo da nuvem */
 [data-testid="stFileUploader"] button {
-  order: 3; /* botão embaixo */
+  order: 2 !important;
+  margin-top: 10px !important;
 }
 
-/* esconde textos nativos */
-[data-testid="stFileUploader"] section p,
-[data-testid="stFileUploader"] section small {
-  display: none !important;
+/* texto por último */
+[data-testid="stFileUploader"] section > div::after {
+  order: 3;
+  margin-top: 16px;
 }
 
 /* esconde só o texto nativo do botão, sem esconder o botão inteiro */
