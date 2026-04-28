@@ -22,7 +22,7 @@ st.markdown(
     """
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
-
+ 
 :root {
   --bg: #020817;
   --surface: #0b1220;
@@ -41,7 +41,7 @@ st.markdown(
   --radius-lg: 18px;
   --shadow: 0 24px 70px rgba(0,0,0,.38);
 }
-
+ 
 html, body, [data-testid="stAppViewContainer"], .stApp {
   background:
     radial-gradient(circle at 12% 0%, rgba(59, 130, 246, .20), transparent 32rem),
@@ -50,19 +50,19 @@ html, body, [data-testid="stAppViewContainer"], .stApp {
   color: var(--text) !important;
   font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
 }
-
+ 
 [data-testid="stHeader"] { background: transparent !important; }
 #MainMenu, footer { visibility: hidden; }
-
+ 
 .main .block-container {
   max-width: 1180px;
   padding: 2.4rem 1.4rem 3rem;
 }
-
+ 
 h1, h2, h3, p, label, span, div { font-family: 'Inter', sans-serif !important; }
 h1, h2, h3 { color: var(--text) !important; letter-spacing: -.025em; }
 p, .stCaption, [data-testid="stCaptionContainer"] { color: var(--muted) !important; }
-
+ 
 /* Cards por chave dos containers */
 .st-key-upload_card,
 .st-key-tip_card,
@@ -74,7 +74,7 @@ p, .stCaption, [data-testid="stCaptionContainer"] { color: var(--muted) !importa
   padding: 1.25rem 1.25rem 1.35rem;
   box-shadow: var(--shadow);
 }
-
+ 
 .app-hero {
   position: relative;
   overflow: hidden;
@@ -87,7 +87,7 @@ p, .stCaption, [data-testid="stCaptionContainer"] { color: var(--muted) !importa
   box-shadow: var(--shadow);
   margin-bottom: 22px;
 }
-
+ 
 .app-hero:after {
   content: "";
   position: absolute;
@@ -98,7 +98,7 @@ p, .stCaption, [data-testid="stCaptionContainer"] { color: var(--muted) !importa
   background: rgba(59, 130, 246, .09);
   filter: blur(8px);
 }
-
+ 
 .hero-grid {
   position: relative;
   z-index: 1;
@@ -107,7 +107,7 @@ p, .stCaption, [data-testid="stCaptionContainer"] { color: var(--muted) !importa
   gap: 24px;
   align-items: start;
 }
-
+ 
 .badge {
   display: inline-flex;
   align-items: center;
@@ -121,7 +121,7 @@ p, .stCaption, [data-testid="stCaptionContainer"] { color: var(--muted) !importa
   font-weight: 700;
   margin-bottom: 15px;
 }
-
+ 
 .hero-title {
   font-size: clamp(2rem, 4vw, 3rem);
   line-height: 1.05;
@@ -129,7 +129,7 @@ p, .stCaption, [data-testid="stCaptionContainer"] { color: var(--muted) !importa
   color: #f8fafc !important;
   font-weight: 800;
 }
-
+ 
 .hero-subtitle {
   max-width: 740px;
   margin: 0;
@@ -137,32 +137,32 @@ p, .stCaption, [data-testid="stCaptionContainer"] { color: var(--muted) !importa
   font-size: 1rem;
   line-height: 1.65;
 }
-
+ 
 .metric-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 10px;
 }
-
+ 
 .metric-box {
   background: rgba(255,255,255,.035);
   border: 1px solid rgba(148,163,184,.13);
   border-radius: 18px;
   padding: 14px;
 }
-
+ 
 .metric-box small {
   display: block;
   color: var(--muted);
   font-size: 12px;
   margin-bottom: 5px;
 }
-
+ 
 .metric-box strong {
   color: #f8fafc;
   font-size: 18px;
 }
-
+ 
 .section-title {
   display: flex;
   align-items: center;
@@ -172,14 +172,14 @@ p, .stCaption, [data-testid="stCaptionContainer"] { color: var(--muted) !importa
   font-size: 1.25rem;
   font-weight: 800;
 }
-
+ 
 .section-help {
   margin: 0 0 1rem;
   color: var(--muted) !important;
   font-size: .94rem;
   line-height: 1.55;
 }
-
+ 
 /* Upload premium estilo dropzone */
 [data-testid="stFileUploader"] {
   position: relative !important;
@@ -192,21 +192,21 @@ p, .stCaption, [data-testid="stCaptionContainer"] { color: var(--muted) !importa
   min-height: 300px !important;
   overflow: hidden !important;
 }
-
+ 
 [data-testid="stFileUploader"] section {
   min-height: 300px !important;
   width: 100% !important;
   padding: 40px 20px 70px !important;
-
+ 
   display: flex !important;
   flex-direction: column !important;
   align-items: center !important;
   justify-content: center !important;
-
+ 
   text-align: center !important;
   gap: 12px !important;
 }
-
+ 
 [data-testid="stFileUploader"] section > div {
   width: 100% !important;
   display: flex !important;
@@ -214,70 +214,71 @@ p, .stCaption, [data-testid="stCaptionContainer"] { color: var(--muted) !importa
   align-items: center !important;
   justify-content: center !important;
 }
-
-/* ordem correta dos elementos */
-[data-testid="stFileUploader"] section > div::before {
-  order: 1; /* nuvem */
-}
-
-[data-testid="stFileUploader"] section > div::after {
-  order: 2; /* texto */
-}
-
+ 
+/* 🔥 ORDEM AJUSTADA: botão → nuvem → texto */
 [data-testid="stFileUploader"] button {
-  order: 3; /* botão embaixo */
+  order: 1 !important; /* botão primeiro */
 }
-
-/* esconde textos nativos */
+ 
+[data-testid="stFileUploader"] section > div::before {
+  order: 2 !important; /* nuvem no meio */
+}
+ 
+[data-testid="stFileUploader"] section > div::after {
+  order: 3 !important; /* texto por último */
+}
+ 
+/* Remove TODOS os elementos nativos indesejados */
 [data-testid="stFileUploader"] section p,
-[data-testid="stFileUploader"] section small {
+[data-testid="stFileUploader"] section small,
+[data-testid="stFileUploader"] [data-testid="stMarkdownContainer"],
+[data-testid="stFileUploader"] svg {
   display: none !important;
 }
-
-/* Esconde o texto "200MB per file • TXT" que aparece acima do botão */
-[data-testid="stFileUploader"] section [data-testid="stMarkdownContainer"],
-[data-testid="stFileUploader"] section > div > [data-testid="stMarkdownContainer"] {
+ 
+/* Remove filhos diretos exceto o botão */
+[data-testid="stFileUploader"] section > div > *:not(button) {
   display: none !important;
 }
-
-/* Alternativa mais agressiva - esconde TODOS os textos nativos do uploader */
-[data-testid="stFileUploader"] [data-testid="stMarkdownContainer"] p {
-  display: none !important;
+ 
+/* Reativa os pseudo-elementos personalizados */
+[data-testid="stFileUploader"] section > div::before,
+[data-testid="stFileUploader"] section > div::after {
+  display: block !important;
 }
-/* esconde só o texto nativo do botão, sem esconder o botão inteiro */
+ 
+/* Esconde texto nativo do botão */
 [data-testid="stFileUploader"] button span,
 [data-testid="stFileUploader"] button p {
   display: none !important;
 }
-
-/* garante que o botão apareça centralizado */
+ 
+/* Garante que o botão apareça */
 [data-testid="stFileUploader"] button {
   display: flex !important;
   visibility: visible !important;
   opacity: 1 !important;
-  margin: 18px auto 0 !important;
 }
-
-/* conteúdo visual central */
+ 
+/* Conteúdo visual - Nuvem personalizada */
 [data-testid="stFileUploader"] section > div::before {
   content: "☁️";
-  display: block;
-  font-size: 72px;   /* 🔥 maior */
+  font-size: 72px;
   line-height: 1;
-  margin-bottom: 12px;
+  margin: 12px 0;
   filter: drop-shadow(0 0 22px rgba(59,130,246,.45));
 }
-
+ 
+/* Texto informativo personalizado */
 [data-testid="stFileUploader"] section > div::after {
   content: "Tamanho máximo: 200MB por arquivo • Formato: TXT";
-  display: block;
   color: #94a3b8;
   font-size: 14px;
   font-weight: 500;
   margin-top: 16px;
 }
-
-/* botão */
+ 
+/* Estilo do botão */
 [data-testid="stFileUploader"] button {
   min-width: 270px !important;
   height: 52px !important;
@@ -287,30 +288,29 @@ p, .stCaption, [data-testid="stCaptionContainer"] { color: var(--muted) !importa
   box-shadow: 0 14px 34px rgba(37,99,235,.35) !important;
   color: transparent !important;
   position: relative !important;
-  display: flex !important;
   align-items: center !important;
   justify-content: center !important;
-  margin: 16px auto 0 auto !important;
+  margin: 16px auto !important;
 }
-
+ 
 [data-testid="stFileUploader"] button::after {
   content: "⬆️  Selecionar arquivo TXT";
   color: #ffffff !important;
   font-size: 15px;
   font-weight: 800;
-
+ 
   display: flex;
   align-items: center;
   justify-content: center;
   text-align: center;
   width: 100%;
 }
-
+ 
 [data-testid="stFileUploader"] button:hover {
   transform: translateY(-1px);
   background: linear-gradient(135deg, #60a5fa, #2563eb) !important;
 }
-
+ 
 /* arquivo anexado */
 [data-testid="stFileUploaderFile"] {
   background: rgba(2,6,23,.58) !important;
@@ -319,7 +319,6 @@ p, .stCaption, [data-testid="stCaptionContainer"] { color: var(--muted) !importa
   padding: 10px 12px !important;
   margin-top: 14px !important;
 }
-
 
 /* Inputs */
 [data-testid="stTextInput"] input,
