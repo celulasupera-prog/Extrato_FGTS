@@ -267,7 +267,7 @@ p, .stCaption, [data-testid="stCaptionContainer"] { color: var(--muted) !importa
   top: 58px;
   left: 50%;
   transform: translateX(-50%);
-  font-size: 72px;
+  font-size: 100px;
   line-height: 1;
   z-index: 2;
   filter: drop-shadow(0 0 22px rgba(59,130,246,.45));
