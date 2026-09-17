@@ -471,34 +471,20 @@ col_upload, col_tip = st.columns([1.55, 1], gap="large")
 
 upload_area = st.container()
 
-with upload_area:
-
-    uploaded_file = st.file_uploader(
-        "Selecione o arquivo TXT original do extrato analítico FGTS",
-        type=["txt"],
-        key=f"uploader_{st.session_state.uploader_nonce}"
-    )
-
-    if uploaded_file:
+with col_upload:
+    with st.container(key="upload_card"):
+        st.markdown('<h2 class="section-title">⬆️ Upload do extrato</h2>', unsafe_allow_html=True)
         st.markdown(
-            f"""
-            <div style="
-                background:#0f172a;
-                border:1px solid #334155;
-                border-radius:12px;
-                padding:12px;
-                margin-top:-60px;
-                position:relative;
-                z-index:10;
-            ">
-                📄 <b>{uploaded_file.name}</b><br>
-                <span style="color:#94a3b8;">
-                    Arquivo carregado com sucesso
-                </span>
-            </div>
-            """,
-            unsafe_allow_html=True
+            '<p class="section-help">Selecione o arquivo TXT original do extrato analítico FGTS. Depois ajuste o nome do arquivo final, se necessário.</p>',
+            unsafe_allow_html=True,
         )
+
+        uploaded_file = st.file_uploader(
+    "📂 Arraste ou selecione o extrato FGTS",
+    type=["txt"],
+    key=f"uploader_{st.session_state.uploader_nonce}",
+    label_visibility="visible"
+)
 
 
 st.text_input(
