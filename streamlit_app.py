@@ -486,27 +486,38 @@ with col_upload:
 
 
 if uploaded_file:
-
     file_size = uploaded_file.size / 1024
 
     st.markdown(
         f"""
         <div style="
-            background-color:#f7f7f7;
-            border:1px solid #ddd;
-            border-radius:10px;
-            padding:15px;
-            margin-top:10px;
+            background-color: #111827;
+            border: 1px solid #263248;
+            border-radius: 10px;
+            padding: 12px 15px;
+            margin-top: 10px;
         ">
-            <div style="font-size:18px;">
-                📄 <b>{uploaded_file.name}</b>
+            <div style="
+                color: #ffffff;
+                font-size: 16px;
+                font-weight: 600;
+            ">
+                📄 {uploaded_file.name}
             </div>
 
-            <div style="margin-top:5px;color:#666;">
+            <div style="
+                color: #9ca3af;
+                font-size: 14px;
+                margin-top: 6px;
+            ">
                 Arquivo carregado com sucesso
             </div>
 
-            <div style="margin-top:5px;color:#888;">
+            <div style="
+                color: #6b7280;
+                font-size: 13px;
+                margin-top: 4px;
+            ">
                 Tamanho: {file_size:.2f} KB
             </div>
         </div>
