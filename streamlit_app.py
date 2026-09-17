@@ -314,12 +314,9 @@ p, .stCaption, [data-testid="stCaptionContainer"] { color: var(--muted) !importa
 }
  
 /* Texto informativo personalizado */
-[data-testid="stFileUploader"] section > div::after {
-  content: "Tamanho máximo: 200MB por arquivo • Formato: TXT";
-  color: #94a3b8;
-  font-size: 14px;
-  font-weight: 500;
-  margin-top: 16px;
+[data-testid="stFileUploader"]:has([data-testid="stFileUploaderFile"]) section > div::after {
+   content: "Arquivo anexado com sucesso";
+   color:#22c55e;
 }
  
 /* Estilo do botão */
