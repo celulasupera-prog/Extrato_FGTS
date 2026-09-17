@@ -513,7 +513,7 @@ with col_upload:
             unsafe_allow_html=True,
         )
 
-                uploaded_file = st.file_uploader(
+        uploaded_file = st.file_uploader(
             "📂 Arraste ou selecione o extrato FGTS",
             type=["txt"],
             key=f"uploader_{st.session_state.uploader_nonce}",
