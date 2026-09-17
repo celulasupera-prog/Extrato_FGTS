@@ -525,23 +525,39 @@ with col_upload:
 
             st.markdown(
                 f"""
-                <div class="upload-success">
-                    <div class="upload-icon">
+                <div style="
+                    background-color:#0f172a;
+                    border:1px solid #22c55e;
+                    border-radius:10px;
+                    padding:12px;
+                    margin-top:10px;
+                    text-align:center;
+                ">
+                    <div style="font-size:35px;">
                         ✅
                     </div>
 
-                    <div>
-                        <div class="upload-title">
-                            Arquivo anexado
-                        </div>
+                    <div style="
+                        color:#22c55e;
+                        font-size:18px;
+                        font-weight:bold;
+                    ">
+                        Arquivo anexado
+                    </div>
 
-                        <div class="upload-name">
-                            📄 {uploaded_file.name}
-                        </div>
+                    <div style="
+                        color:white;
+                        margin-top:8px;
+                    ">
+                        📄 {uploaded_file.name}
+                    </div>
 
-                        <div class="upload-size">
-                            {tamanho:.2f} KB
-                        </div>
+                    <div style="
+                        color:#94a3b8;
+                        font-size:13px;
+                        margin-top:5px;
+                    ">
+                        {tamanho:.2f} KB
                     </div>
                 </div>
                 """,
