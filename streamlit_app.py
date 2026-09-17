@@ -478,11 +478,41 @@ with col_upload:
         )
 
         uploaded_file = st.file_uploader(
-            "Arraste o arquivo TXT aqui ou clique para selecionar",
-            type=["txt"],
-            key=f"uploaded_file_{st.session_state.uploader_nonce}",
-            label_visibility="collapsed",
-        )
+    "📂 Arraste ou selecione o extrato FGTS",
+    type=["txt"],
+    key=f"uploader_{st.session_state.uploader_nonce}",
+    label_visibility="visible"
+)
+
+
+if uploaded_file:
+
+    file_size = uploaded_file.size / 1024
+
+    st.markdown(
+        f"""
+        <div style="
+            background-color:#f7f7f7;
+            border:1px solid #ddd;
+            border-radius:10px;
+            padding:15px;
+            margin-top:10px;
+        ">
+            <div style="font-size:18px;">
+                📄 <b>{uploaded_file.name}</b>
+            </div>
+
+            <div style="margin-top:5px;color:#666;">
+                Arquivo carregado com sucesso
+            </div>
+
+            <div style="margin-top:5px;color:#888;">
+                Tamanho: {file_size:.2f} KB
+            </div>
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
 
         st.text_input(
             "Nome do arquivo de saída",
