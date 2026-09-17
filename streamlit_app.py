@@ -324,13 +324,62 @@ p, .stCaption, [data-testid="stCaptionContainer"] { color: var(--muted) !importa
   background: linear-gradient(135deg, #60a5fa, #2563eb) !important;
 }
  
-/* arquivo anexado */
-[data-testid="stFileUploaderFile"] {
-  background: rgba(2,6,23,.58) !important;
-  border: 1px solid rgba(148,163,184,.18) !important;
-  border-radius: 14px !important;
-  padding: 10px 12px !important;
-  margin-top: 14px !important;
+/* Esconde o chip nativo do Streamlit (fica quebrado pelas regras de limpeza acima)
+   para usarmos nosso próprio cartão de "arquivo anexado" abaixo */
+[data-testid="stFileUploaderFileList"] {
+  display: none !important;
+}
+
+/* Quando existe arquivo anexado (mesmo escondido), dá destaque visual ao quadro */
+[data-testid="stFileUploader"]:has([data-testid="stFileUploaderFile"]) {
+  border-color: rgba(34,197,94,.75) !important;
+  background:
+    radial-gradient(circle at center, rgba(34,197,94,.14), transparent 62%),
+    linear-gradient(180deg, rgba(15,23,42,.92), rgba(8,13,28,.95)) !important;
+}
+
+[data-testid="stFileUploader"]:has([data-testid="stFileUploaderFile"])::before {
+  content: "✅" !important;
+  filter: drop-shadow(0 0 22px rgba(34,197,94,.5)) !important;
+}
+
+[data-testid="stFileUploader"]:has([data-testid="stFileUploaderFile"]) section > div::after {
+  content: "Arquivo anexado com sucesso" !important;
+  color: #86efac !important;
+}
+
+/* Cartão próprio de "arquivo anexado", renderizado via Python dentro do quadro de upload */
+.file-attached {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 16px;
+  background: rgba(34,197,94,.10);
+  border: 1px solid rgba(34,197,94,.35);
+  border-radius: 14px;
+  padding: 12px 14px;
+}
+.file-attached-icon {
+  font-size: 22px;
+  line-height: 1;
+  flex-shrink: 0;
+}
+.file-attached-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+.file-attached-info strong {
+  color: #f0fdf4 !important;
+  font-size: 14px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.file-attached-info small {
+  color: #86efac !important;
+  font-size: 12px;
 }
 
 /* Inputs */
@@ -483,6 +532,24 @@ with col_upload:
             key=f"uploaded_file_{st.session_state.uploader_nonce}",
             label_visibility="collapsed",
         )
+
+        if uploaded_file is not None:
+            tamanho_kb = len(uploaded_file.getvalue()) / 1024
+            tamanho_str = (
+                f"{tamanho_kb / 1024:.1f} MB" if tamanho_kb >= 1024 else f"{tamanho_kb:.1f} KB"
+            )
+            st.markdown(
+                f"""
+<div class="file-attached">
+  <span class="file-attached-icon">✅</span>
+  <div class="file-attached-info">
+    <strong>{uploaded_file.name}</strong>
+    <small>{tamanho_str} • pronto para processar</small>
+  </div>
+</div>
+""",
+                unsafe_allow_html=True,
+            )
 
         st.text_input(
             "Nome do arquivo de saída",
