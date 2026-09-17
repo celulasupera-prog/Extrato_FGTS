@@ -179,40 +179,6 @@ p, .stCaption, [data-testid="stCaptionContainer"] { color: var(--muted) !importa
   font-size: .94rem;
   line-height: 1.55;
 }
-
-.upload-success {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 15px;
-    margin-top: -80px;
-    position: relative;
-    z-index: 5;
-    height: 120px;
-    text-align: left;
-}
-
-.upload-icon {
-    font-size: 42px;
-}
-
-.upload-title {
-    color: #22c55e;
-    font-size: 18px;
-    font-weight: 700;
-}
-
-.upload-name {
-    color: white;
-    font-size: 14px;
-    margin-top: 5px;
-}
-
-.upload-size {
-    color: #94a3b8;
-    font-size: 12px;
-    margin-top: 3px;
-}
  
 /* Upload premium estilo dropzone */
 [data-testid="stFileUploader"] {
@@ -270,9 +236,9 @@ p, .stCaption, [data-testid="stCaptionContainer"] { color: var(--muted) !importa
   display: none !important;
 }
  
-/* Mantém estrutura do uploader */
+/* Remove filhos diretos exceto o botão */
 [data-testid="stFileUploader"] section > div > *:not(button) {
-  visibility: hidden !important;
+  display: none !important;
 }
  
 /* Reativa os pseudo-elementos personalizados */
@@ -294,6 +260,7 @@ p, .stCaption, [data-testid="stCaptionContainer"] { color: var(--muted) !importa
   opacity: 1 !important;
 }
  
+/* Conteúdo visual - Nuvem personalizada */
 [data-testid="stFileUploader"]::before {
   content: "☁️";
   position: absolute;
@@ -305,19 +272,14 @@ p, .stCaption, [data-testid="stCaptionContainer"] { color: var(--muted) !importa
   z-index: 2;
   filter: drop-shadow(0 0 22px rgba(59,130,246,.45));
 }
-
-
-/* Quando existir arquivo anexado */
-[data-testid="stFileUploader"]:has([data-testid="stFileUploaderFile"])::before {
-  content: "✅";
-  filter: none;
-}
  
 /* Texto informativo personalizado */
-[data-testid="stFileUploader"]:has([data-testid="stFileUploaderFile"]) section > div::after {
-   content: "✅ Arquivo anexado com sucesso";
-   color:#22c55e;
-   display:block !important;
+[data-testid="stFileUploader"] section > div::after {
+  content: "Tamanho máximo: 200MB por arquivo • Formato: TXT";
+  color: #94a3b8;
+  font-size: 14px;
+  font-weight: 500;
+  margin-top: 16px;
 }
  
 /* Estilo do botão */
@@ -362,21 +324,13 @@ p, .stCaption, [data-testid="stCaptionContainer"] { color: var(--muted) !importa
   background: linear-gradient(135deg, #60a5fa, #2563eb) !important;
 }
  
-/* Arquivo anexado */
+/* arquivo anexado */
 [data-testid="stFileUploaderFile"] {
-  background: rgba(34,197,94,.12) !important;
-  border: 1px solid rgba(34,197,94,.45) !important;
+  background: rgba(2,6,23,.58) !important;
+  border: 1px solid rgba(148,163,184,.18) !important;
   border-radius: 14px !important;
-  padding: 14px !important;
-  margin-top: 15px !important;
-}
-
-[data-testid="stFileUploaderFile"] svg {
-  display: block !important;
-}
-
-[data-testid="stFileUploaderFile"] small {
-  color: #86efac !important;
+  padding: 10px 12px !important;
+  margin-top: 14px !important;
 }
 
 /* Inputs */
@@ -515,8 +469,6 @@ st.markdown(
 
 col_upload, col_tip = st.columns([1.55, 1], gap="large")
 
-upload_area = st.container()
-
 with col_upload:
     with st.container(key="upload_card"):
         st.markdown('<h2 class="section-title">⬆️ Upload do extrato</h2>', unsafe_allow_html=True)
@@ -526,14 +478,13 @@ with col_upload:
         )
 
         uploaded_file = st.file_uploader(
-            "📂 Arraste ou selecione o extrato FGTS",
+            "Arraste o arquivo TXT aqui ou clique para selecionar",
             type=["txt"],
-            key=f"uploader_{st.session_state.uploader_nonce}",
-            label_visibility="visible"
+            key=f"uploaded_file_{st.session_state.uploader_nonce}",
+            label_visibility="collapsed",
         )
 
-
-st.text_input(
+        st.text_input(
             "Nome do arquivo de saída",
             key="output_name",
             help="O arquivo será salvo em .xlsx. Se você não informar a extensão, ela será adicionada automaticamente.",
@@ -584,12 +535,9 @@ with st.container(key="actions_card"):
 
 if limpar:
     st.session_state.uploader_nonce += 1
+    st.session_state.output_name = DEFAULT_OUTPUT_NAME
     st.session_state.resultado_bytes = None
     st.session_state.resultado_nome = DEFAULT_OUTPUT_NAME
-
-    # altera o valor inicial do widget na próxima renderização
-    st.session_state.pop("output_name", None)
-
     st.rerun()
 
 if processar:
