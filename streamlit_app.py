@@ -3,12 +3,15 @@
 
 from __future__ import annotations
 
+import base64
 import tempfile
 from pathlib import Path
 
 import streamlit as st
+import streamlit.components.v1 as components
 
 from fgts_extrato_to_excel import extrato_fgts_txt_para_excel
+
 
 
 st.set_page_config(
@@ -494,6 +497,23 @@ def _limpar_campos() -> None:
     st.session_state.output_name = DEFAULT_OUTPUT_NAME
     st.session_state.resultado_bytes = None
     st.session_state.resultado_nome = DEFAULT_OUTPUT_NAME
+    st.session_state.auto_download_pendente = False
+
+
+def _disparar_download_automatico(data: bytes, nome_arquivo: str, mime: str) -> None:
+    """Dispara o download do arquivo automaticamente, sem precisar de um segundo clique."""
+    b64 = base64.b64encode(data).decode()
+    components.html(
+        f"""
+        <html><body>
+        <a id="auto_download_link" href="data:{mime};base64,{b64}" download="{nome_arquivo}"></a>
+        <script>
+            document.getElementById('auto_download_link').click();
+        </script>
+        </body></html>
+        """,
+        height=0,
+    )
 
 
 if "resultado_bytes" not in st.session_state:
@@ -504,6 +524,8 @@ if "uploader_nonce" not in st.session_state:
     st.session_state.uploader_nonce = 0
 if "output_name" not in st.session_state:
     st.session_state.output_name = DEFAULT_OUTPUT_NAME
+if "auto_download_pendente" not in st.session_state:
+    st.session_state.auto_download_pendente = False
 st.markdown(
     """
 <section class="app-hero">
@@ -633,6 +655,7 @@ if processar:
 
                 st.session_state.resultado_bytes = xlsx_path.read_bytes()
                 st.session_state.resultado_nome = safe_output_name
+                st.session_state.auto_download_pendente = True
 
             st.success("Planilha gerada com sucesso!")
 
@@ -654,3 +677,11 @@ if st.session_state.resultado_bytes:
             mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
             use_container_width=True,
         )
+
+    if st.session_state.auto_download_pendente:
+        _disparar_download_automatico(
+            st.session_state.resultado_bytes,
+            st.session_state.resultado_nome,
+            "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+        )
+        st.session_state.auto_download_pendente = False
