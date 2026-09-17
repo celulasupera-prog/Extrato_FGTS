@@ -546,7 +546,7 @@ with col_upload:
                 </div>
                 """,
                 unsafe_allow_html=True
-            ))
+            )
 
 
 st.text_input(
