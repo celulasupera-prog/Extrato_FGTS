@@ -294,7 +294,6 @@ p, .stCaption, [data-testid="stCaptionContainer"] { color: var(--muted) !importa
   opacity: 1 !important;
 }
  
-/* Conteúdo visual - Nuvem personalizada */
 [data-testid="stFileUploader"]::before {
   content: "☁️";
   position: absolute;
@@ -305,6 +304,13 @@ p, .stCaption, [data-testid="stCaptionContainer"] { color: var(--muted) !importa
   line-height: 1;
   z-index: 2;
   filter: drop-shadow(0 0 22px rgba(59,130,246,.45));
+}
+
+
+/* Quando existir arquivo anexado */
+[data-testid="stFileUploader"]:has([data-testid="stFileUploaderFile"])::before {
+  content: "✅";
+  filter: none;
 }
  
 /* Texto informativo personalizado */
