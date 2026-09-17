@@ -486,6 +486,16 @@ p, .stCaption, [data-testid="stCaptionContainer"] { color: var(--muted) !importa
 
 DEFAULT_OUTPUT_NAME = "Extrato_FGTS_Analitico_Processado.xlsx"
 
+
+def _limpar_campos() -> None:
+    """Reseta os campos. Executado via on_click, antes dos widgets serem redesenhados,
+    o que evita o erro StreamlitWidgetAlreadyInstantiatedError."""
+    st.session_state.uploader_nonce += 1
+    st.session_state.output_name = DEFAULT_OUTPUT_NAME
+    st.session_state.resultado_bytes = None
+    st.session_state.resultado_nome = DEFAULT_OUTPUT_NAME
+
+
 if "resultado_bytes" not in st.session_state:
     st.session_state.resultado_bytes = None
 if "resultado_nome" not in st.session_state:
@@ -593,19 +603,16 @@ with st.container(key="actions_card"):
         )
 
     with action_col_2:
-        limpar = st.button("🧹 Limpar campos", use_container_width=True)
+        limpar = st.button(
+            "🧹 Limpar campos",
+            use_container_width=True,
+            on_click=_limpar_campos,
+        )
 
     st.markdown(
         '<p class="footer-note">Após o processamento, o botão de download aparecerá logo abaixo.</p>',
         unsafe_allow_html=True,
     )
-
-if limpar:
-    st.session_state.uploader_nonce += 1
-    st.session_state.output_name = DEFAULT_OUTPUT_NAME
-    st.session_state.resultado_bytes = None
-    st.session_state.resultado_nome = DEFAULT_OUTPUT_NAME
-    st.rerun()
 
 if processar:
     if not uploaded_file:
