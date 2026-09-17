@@ -535,9 +535,12 @@ with st.container(key="actions_card"):
 
 if limpar:
     st.session_state.uploader_nonce += 1
-    st.session_state.output_name = DEFAULT_OUTPUT_NAME
     st.session_state.resultado_bytes = None
     st.session_state.resultado_nome = DEFAULT_OUTPUT_NAME
+
+    # altera o valor inicial do widget na próxima renderização
+    st.session_state.pop("output_name", None)
+
     st.rerun()
 
 if processar:
