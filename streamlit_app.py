@@ -358,13 +358,21 @@ p, .stCaption, [data-testid="stCaptionContainer"] { color: var(--muted) !importa
   background: linear-gradient(135deg, #60a5fa, #2563eb) !important;
 }
  
-/* arquivo anexado */
+/* Arquivo anexado */
 [data-testid="stFileUploaderFile"] {
-  background: rgba(2,6,23,.58) !important;
-  border: 1px solid rgba(148,163,184,.18) !important;
+  background: rgba(34,197,94,.12) !important;
+  border: 1px solid rgba(34,197,94,.45) !important;
   border-radius: 14px !important;
-  padding: 10px 12px !important;
-  margin-top: 14px !important;
+  padding: 14px !important;
+  margin-top: 15px !important;
+}
+
+[data-testid="stFileUploaderFile"] svg {
+  display: block !important;
+}
+
+[data-testid="stFileUploaderFile"] small {
+  color: #86efac !important;
 }
 
 /* Inputs */
@@ -519,50 +527,6 @@ with col_upload:
             key=f"uploader_{st.session_state.uploader_nonce}",
             label_visibility="visible"
         )
-
-        if uploaded_file:
-            tamanho = uploaded_file.size / 1024
-
-            st.markdown(
-                f"""
-                <div style="
-                    background-color:#0f172a;
-                    border:1px solid #22c55e;
-                    border-radius:10px;
-                    padding:12px;
-                    margin-top:10px;
-                    text-align:center;
-                ">
-                    <div style="font-size:35px;">
-                        ✅
-                    </div>
-
-                    <div style="
-                        color:#22c55e;
-                        font-size:18px;
-                        font-weight:bold;
-                    ">
-                        Arquivo anexado
-                    </div>
-
-                    <div style="
-                        color:white;
-                        margin-top:8px;
-                    ">
-                        📄 {uploaded_file.name}
-                    </div>
-
-                    <div style="
-                        color:#94a3b8;
-                        font-size:13px;
-                        margin-top:5px;
-                    ">
-                        {tamanho:.2f} KB
-                    </div>
-                </div>
-                """,
-                unsafe_allow_html=True
-            )
 
 
 st.text_input(
