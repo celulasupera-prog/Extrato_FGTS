@@ -179,6 +179,40 @@ p, .stCaption, [data-testid="stCaptionContainer"] { color: var(--muted) !importa
   font-size: .94rem;
   line-height: 1.55;
 }
+
+.upload-success {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    margin-top: -80px;
+    position: relative;
+    z-index: 5;
+    height: 120px;
+    text-align: left;
+}
+
+.upload-icon {
+    font-size: 42px;
+}
+
+.upload-title {
+    color: #22c55e;
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.upload-name {
+    color: white;
+    font-size: 14px;
+    margin-top: 5px;
+}
+
+.upload-size {
+    color: #94a3b8;
+    font-size: 12px;
+    margin-top: 3px;
+}
  
 /* Upload premium estilo dropzone */
 [data-testid="stFileUploader"] {
@@ -479,12 +513,40 @@ with col_upload:
             unsafe_allow_html=True,
         )
 
-        uploaded_file = st.file_uploader(
-    "📂 Arraste ou selecione o extrato FGTS",
-    type=["txt"],
-    key=f"uploader_{st.session_state.uploader_nonce}",
-    label_visibility="visible"
-)
+                uploaded_file = st.file_uploader(
+            "📂 Arraste ou selecione o extrato FGTS",
+            type=["txt"],
+            key=f"uploader_{st.session_state.uploader_nonce}",
+            label_visibility="visible"
+        )
+
+        if uploaded_file:
+            tamanho = uploaded_file.size / 1024
+
+            st.markdown(
+                f"""
+                <div class="upload-success">
+                    <div class="upload-icon">
+                        ✅
+                    </div>
+
+                    <div>
+                        <div class="upload-title">
+                            Arquivo anexado
+                        </div>
+
+                        <div class="upload-name">
+                            📄 {uploaded_file.name}
+                        </div>
+
+                        <div class="upload-size">
+                            {tamanho:.2f} KB
+                        </div>
+                    </div>
+                </div>
+                """,
+                unsafe_allow_html=True
+            ))
 
 
 st.text_input(
