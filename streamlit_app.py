@@ -270,9 +270,9 @@ p, .stCaption, [data-testid="stCaptionContainer"] { color: var(--muted) !importa
   display: none !important;
 }
  
-/* Remove filhos diretos exceto o botão */
+/* Mantém estrutura do uploader */
 [data-testid="stFileUploader"] section > div > *:not(button) {
-  display: none !important;
+  visibility: hidden !important;
 }
  
 /* Reativa os pseudo-elementos personalizados */
@@ -315,8 +315,9 @@ p, .stCaption, [data-testid="stCaptionContainer"] { color: var(--muted) !importa
  
 /* Texto informativo personalizado */
 [data-testid="stFileUploader"]:has([data-testid="stFileUploaderFile"]) section > div::after {
-   content: "Arquivo anexado com sucesso";
+   content: "✅ Arquivo anexado com sucesso";
    color:#22c55e;
+   display:block !important;
 }
  
 /* Estilo do botão */
